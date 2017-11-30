@@ -1,1 +1,1 @@
-include ':app', ':android-support'
+include ":modules:android-support",':app'

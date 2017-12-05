@@ -7,11 +7,20 @@ buildscript {
             dirs 'libs'
         }
 
+        maven{
+            url uri("./plugins")
+        }
+
         mavenLocal()
         google()
         jcenter()
     }
     dependencies {
+        //hugo
+//        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
+        classpath 'org.aspectj:aspectjtools:1.8.6'
+
+
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 

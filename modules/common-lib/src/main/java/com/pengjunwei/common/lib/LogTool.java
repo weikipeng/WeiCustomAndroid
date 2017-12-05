@@ -20,7 +20,7 @@ public class LogTool {
     }
 
 
-    public void setDelegate(Delegate delegate){
+    public void setDelegate(Delegate delegate) {
         mDelegate = delegate;
     }
 
@@ -47,7 +47,7 @@ public class LogTool {
 
         codeMessage += "(" + className + ":" + lineNumber + "@" + Thread.currentThread().getName() + ") : ";
 
-//        Log.e("jzb", "jzbFocus debug " + codeMessage + log);
+        //        Log.e("jzb", "jzbFocus debug " + codeMessage + log);
 
         if (mDelegate != null) {
             mDelegate.executeLog("jzb", "jzbFocus debug " + codeMessage + log);
@@ -91,7 +91,16 @@ public class LogTool {
         //        Log.e("jzb", "jzbFocus debug " + codeMessage + log);
     }
 
-    interface Delegate {
+    public String getCurrentMethodName() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        if (stackTrace.length > 3) {
+            return stackTrace[3].getMethodName();
+        }
+
+        return "";
+    }
+
+    public interface Delegate {
         void executeLog(String tag, String message);
     }
 

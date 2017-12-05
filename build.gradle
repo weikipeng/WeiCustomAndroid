@@ -17,8 +17,8 @@ buildscript {
     }
     dependencies {
         //hugo
-//        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
         classpath 'org.aspectj:aspectjtools:1.8.6'
+        classpath 'com.jzb.android:hugo-plugin:1.0.0'
 
 
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -33,6 +33,9 @@ allprojects {
     repositories {
         flatDir {
             dirs 'libs'
+        }
+        maven{
+            url uri("./plugins")
         }
         mavenLocal()
         google()

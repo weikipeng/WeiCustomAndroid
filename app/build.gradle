@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.jzb.hugo'
+
 android {
     compileSdkVersion versions.compileSdk
     defaultConfig {
@@ -41,4 +43,8 @@ dependencies {
 //    api project(':modules:android-support')
     implementation project(':modules:android-support')
     implementation project(':modules:common-lib')
+
+    debugCompile project(":modules:hugo:hugo-runtime")
+    debugCompile 'org.aspectj:aspectjrt:1.8.6'
+    compile project(":modules:hugo:hugo-annotations")
 }

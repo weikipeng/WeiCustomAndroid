@@ -1,1 +1,2 @@
+include ':modules:common-lib'
 include ":modules:android-support",':app'

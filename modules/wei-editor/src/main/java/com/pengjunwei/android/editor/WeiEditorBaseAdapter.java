@@ -41,4 +41,8 @@ public class WeiEditorBaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
         mDataList.add(data);
     }
 
+    public void add(int position, T data) {
+        mDataList.add(position, data);
+    }
+
 }

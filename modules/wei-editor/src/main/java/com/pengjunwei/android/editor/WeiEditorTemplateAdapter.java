@@ -81,4 +81,18 @@ public class WeiEditorTemplateAdapter<D> extends WeiEditorBaseAdapter<WeiEditorV
     public void setCustomProvider(WeiEditorVHProvider customProvider) {
         this.customProvider = customProvider;
     }
+
+    public WeiEditorVHBaseData create(Object data, WeiEditorVHStyle style) {
+        int viewType = 0;
+        if (customProvider != null) {
+            viewType = customProvider.getViewType(data.getClass());
+        }
+
+        if (viewType == 0) {
+            viewType = WeiEditorVHProvider.getGlobalProvider().getViewType(data.getClass());
+        }
+        WeiEditorVHBaseData baseData = new WeiEditorVHBaseData(viewType, data);
+        baseData.setStyle(style);
+        return baseData;
+    }
 }

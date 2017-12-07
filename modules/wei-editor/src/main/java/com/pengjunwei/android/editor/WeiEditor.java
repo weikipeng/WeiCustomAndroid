@@ -11,8 +11,11 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import com.pengjunwei.android.editor.component.WeiEditorVHEditText;
 import com.pengjunwei.android.editor.model.WeiEditorMenuItem;
 import com.pengjunwei.android.editor.model.WeiEditorSpaceItem;
+import com.pengjunwei.android.editor.model.WeiEditorText;
+import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
 import com.pengjunwei.android.editor.model.WeiEditorVHStyle;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHMenuItem;
@@ -79,6 +82,11 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
                 , WeiEditorVHSpace.class
         );
 
+        WeiEditorVHProvider.getGlobalProvider().register(WeiEditorText.class
+                , R.layout.wei_editor_edittext_item_layout
+                , R.layout.wei_editor_edittext_item_layout
+                , WeiEditorVHEditText.class
+        );
     }
 
     @Override
@@ -160,5 +168,25 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         menuAdapter.addData(new WeiEditorSpaceItem(), style);
 
         menuAdapter.notifyDataSetChanged();
+    }
+
+    public void startEdit(){
+        WeiEditorText viewData = new WeiEditorText();
+        viewData.buildFirstHint();
+        contentAdapter.addData(viewData);
+        contentAdapter.notifyDataSetChanged();
+    }
+
+    public void insertEditText(int position) {
+        WeiEditorText viewData = new WeiEditorText();
+        viewData.isRequestFocus = true;
+        WeiEditorVHBaseData tempData = contentAdapter.create(viewData, null);
+        int itemCount = contentAdapter.getItemCount();
+        if (position >= itemCount) {
+            contentAdapter.add(itemCount, tempData);
+        }else{
+            contentAdapter.add(position, tempData);
+        }
+        contentAdapter.notifyItemInserted(position);
     }
 }

@@ -43,6 +43,7 @@ dependencies {
 //    api project(':modules:android-support')
     implementation project(':modules:android-support')
     implementation project(':modules:common-lib')
+    implementation project(':modules:wei-editor')
 
     debugCompile project(":modules:hugo:hugo-runtime")
     debugCompile 'org.aspectj:aspectjrt:1.8.6'

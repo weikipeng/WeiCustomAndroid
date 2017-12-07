@@ -1,4 +1,5 @@
 include ':modules:common-lib'
+include ':modules:wei-editor'
 include ":modules:android-support",':app'
 include ':modules:hugo:hugo-annotations'
 include ':modules:hugo:hugo-plugin'

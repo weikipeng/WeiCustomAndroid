@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.pengjunwei.android.custom.demo.miui.MIUIActivity1
+import com.pengjunwei.android.custom.demo.editor.TestEditorActivity
 
 /**
  * A placeholder fragment containing a simple view.
@@ -24,7 +24,8 @@ class MainActivityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         buttonTestMiuiLifeCycle = view?.findViewById(R.id.btnTestMiuiLifeCycle)
         buttonTestMiuiLifeCycle?.setOnClickListener(View.OnClickListener {
-            val miuiIntent = Intent(context,MIUIActivity1::class.java)
+//            val miuiIntent = Intent(context,MIUIActivity1::class.java)
+            val miuiIntent = Intent(context,TestEditorActivity::class.java)
             startActivity(miuiIntent)
         })
     }

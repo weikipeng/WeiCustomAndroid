@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wp_gray_lighten_10">#a8bece</color>
+    <color name="format_bar_ripple_animation">@color/wp_gray_lighten_10</color>
+</resources>

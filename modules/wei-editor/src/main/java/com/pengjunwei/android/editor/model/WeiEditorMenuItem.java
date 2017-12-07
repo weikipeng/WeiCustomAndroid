@@ -11,9 +11,11 @@ public class WeiEditorMenuItem {
     @DrawableRes
     public int     iconRes;
     public boolean isSelected;
+//    public int[]   marginArray;
 
     public WeiEditorMenuItem(String key, int iconRes) {
         this.key = key;
         this.iconRes = iconRes;
+//        marginArray = new int[]{0, 0, 0, 0};
     }
 }

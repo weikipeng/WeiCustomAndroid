@@ -17,6 +17,7 @@ import com.pengjunwei.android.editor.model.WeiEditorSpaceItem;
 import com.pengjunwei.android.editor.model.WeiEditorText;
 import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
 import com.pengjunwei.android.editor.model.WeiEditorVHStyle;
+import com.pengjunwei.android.editor.view.WeiEditorLayoutManager;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHMenuItem;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHProvider;
@@ -35,14 +36,14 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
      * 编辑器功能菜单按钮
      */
     protected RecyclerView             menuRecyclerView;
-    protected LinearLayoutManager      menuLayoutManager;
+    protected WeiEditorLayoutManager   menuLayoutManager;
     protected WeiEditorTemplateAdapter menuAdapter;
     /**
      * 编辑器内容
      */
     protected RecyclerView             contentRecyclerView;
     protected LinearLayoutManager      contentLayoutManager;
-    protected WeiEditorTemplateAdapter contentAdapter;
+    protected WeiEditorContentAdapter  contentAdapter;
 
 
     public WeiEditor(Context context) {
@@ -68,7 +69,7 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         View.inflate(context, R.layout.wei_editor_layout, this);
 
         menuAdapter = new WeiEditorTemplateAdapter(this);
-        contentAdapter = new WeiEditorTemplateAdapter(this);
+        contentAdapter = new WeiEditorContentAdapter(this);
 
         WeiEditorVHProvider.getGlobalProvider().register(WeiEditorMenuItem.class
                 , R.layout.wei_editor_menu_item_layout
@@ -98,7 +99,7 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         contentRecyclerView = findViewById(R.id.editorRecyclerView);
 
         Context context = getContext();
-        menuLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        menuLayoutManager = new WeiEditorLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         menuRecyclerView.setLayoutManager(menuLayoutManager);
         menuRecyclerView.setAdapter(menuAdapter);
 
@@ -170,23 +171,91 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         menuAdapter.notifyDataSetChanged();
     }
 
-    public void startEdit(){
+    public void startEdit() {
         WeiEditorText viewData = new WeiEditorText();
         viewData.buildFirstHint();
         contentAdapter.addData(viewData);
         contentAdapter.notifyDataSetChanged();
     }
 
-    public void insertEditText(int position) {
+    public void insertEditText(final int position, String newText) {
         WeiEditorText viewData = new WeiEditorText();
         viewData.isRequestFocus = true;
-        WeiEditorVHBaseData tempData = contentAdapter.create(viewData, null);
-        int itemCount = contentAdapter.getItemCount();
+        viewData.text = newText;
+        WeiEditorVHBaseData tempData  = contentAdapter.create(viewData, null);
+        int                 itemCount = contentAdapter.getItemCount();
         if (position >= itemCount) {
             contentAdapter.add(itemCount, tempData);
-        }else{
+        } else {
             contentAdapter.add(position, tempData);
         }
+//        LogTool.getInstance().saveLog("insertEditText ===> ", position
+//                , " text===> ", newText
+//        );
+
+//        contentRecyclerView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
         contentAdapter.notifyItemInserted(position);
+//            }
+//        }, 0);
+    }
+
+    public void scrollToPosition(int position) {
+        //        contentLayoutManager.scrollToPositionWithOffset(position, 0);
+        contentRecyclerView.scrollToPosition(position);
     }
 }
+
+//Process: com.pengjunwei.android.custom.demo, PID: 339
+//        java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionViewHolder{17ccca7d position=2 id=-1, oldPos=1, pLpos:1 scrap [attachedScrap] tmpDetached no parent} android.support.v7.widget.RecyclerView{3e8c1e40 VFED.... ......I. 0,0-1080,1526 #7f080044 app:id/editorRecyclerView}, adapter:com.pengjunwei.android.editor.WeiEditorTemplateAdapter@38609179, layout:android.support.v7.widget.LinearLayoutManager@2a06febe, context:com.pengjunwei.android.custom.demo.editor.TestEditorActivity@16f1b925
+//        at android.support.v7.widget.RecyclerView$Recycler.validateViewHolderForOffsetPosition(RecyclerView.java:5421)
+//        at android.support.v7.widget.RecyclerView$Recycler.tryGetViewHolderForPositionByDeadline(RecyclerView.java:5603)
+//        at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:5563)
+//        at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:5559)
+//        at android.support.v7.widget.LinearLayoutManager$LayoutState.next(LinearLayoutManager.java:2229)
+//        at android.support.v7.widget.LinearLayoutManager.layoutChunk(LinearLayoutManager.java:1556)
+//        at android.support.v7.widget.LinearLayoutManager.fill(LinearLayoutManager.java:1516)
+//        at android.support.v7.widget.LinearLayoutManager.onLayoutChildren(LinearLayoutManager.java:608)
+//        at android.support.v7.widget.RecyclerView.dispatchLayoutStep1(RecyclerView.java:3644)
+//        at android.support.v7.widget.RecyclerView.dispatchLayout(RecyclerView.java:3408)
+//        at android.support.v7.widget.RecyclerView.onLayout(RecyclerView.java:3962)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.support.constraint.ConstraintLayout.onLayout(ConstraintLayout.java:1197)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.support.constraint.ConstraintLayout.onLayout(ConstraintLayout.java:1197)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.support.constraint.ConstraintLayout.onLayout(ConstraintLayout.java:1197)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.widget.FrameLayout.layoutChildren(FrameLayout.java:573)
+//        at android.widget.FrameLayout.onLayout(FrameLayout.java:508)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.support.v7.widget.ActionBarOverlayLayout.onLayout(ActionBarOverlayLayout.java:443)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.widget.FrameLayout.layoutChildren(FrameLayout.java:573)
+//        at android.widget.FrameLayout.onLayout(FrameLayout.java:508)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.widget.LinearLayout.setChildFrame(LinearLayout.java:1702)
+//        at android.widget.LinearLayout.layoutVertical(LinearLayout.java:1556)
+//        at android.widget.LinearLayout.onLayout(LinearLayout.java:1465)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.widget.FrameLayout.layoutChildren(FrameLayout.java:573)
+//        at android.widget.FrameLayout.onLayout(FrameLayout.java:508)
+//        at android.view.View.layout(View.java:16695)
+//        at android.view.ViewGroup.layout(ViewGroup.java:5328)
+//        at android.view.ViewRootImpl.performLayout(ViewRootImpl.java:2319)
+//        at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:2032)
+//        at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1191)
+//        at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:6642)
+//        at android.view.Choreographer$CallbackRecord.run(Choreographer.java:777)
+//        at android.view.Choreographer.doCallbacks(Choreographer.java:590)
+//        at android.view.Choreographer.doFrame(Choreographer.java:560)
+//        at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.ja

@@ -11,7 +11,7 @@ import com.pengjunwei.android.editor.model.WeiEditorVHStyle;
 /**
  * Created by wikipeng on 2017/12/7.
  */
-public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder {
+public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder implements WeiEditorVH{
     public WeiEditorVHBaseData<T>        mData;
     public WeiEditorVHDelegate delegate;
 

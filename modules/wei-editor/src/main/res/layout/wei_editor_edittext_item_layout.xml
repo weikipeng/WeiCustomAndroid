@@ -8,6 +8,7 @@
     tools:background="#0000FF">
 
     <EditText
+        android:focusedByDefault="false"
         android:id="@+id/editorEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -50,6 +50,16 @@ public class WeiEditorTemplateAdapter<D> extends WeiEditorBaseAdapter<WeiEditorV
         return super.getItemViewType(position);
     }
 
+    @Override
+    public void onViewAttachedToWindow(WeiEditorVHBase holder) {
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(WeiEditorVHBase holder) {
+        super.onViewDetachedFromWindow(holder);
+    }
+
     public void addData(Object data) {
         //        int viewType = 0;
         //        if (customProvider != null) {

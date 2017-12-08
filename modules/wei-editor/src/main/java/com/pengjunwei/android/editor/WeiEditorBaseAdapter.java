@@ -45,4 +45,17 @@ public class WeiEditorBaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
         mDataList.add(position, data);
     }
 
+//    @Override
+//    public void onViewAttachedToWindow(V holder) {
+//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
+//        super.onViewAttachedToWindow(holder);
+//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
+//    }
+//
+//    @Override
+//    public void onViewDetachedFromWindow(V holder) {
+//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
+//        super.onViewDetachedFromWindow(holder);
+//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
+//    }
 }

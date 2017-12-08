@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.pengjunwei.android.editor.model.WeiEditorText;
 import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHBase;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
+import com.pengjunwei.common.lib.LogTool;
 
 /**
  * 文本输入框
@@ -27,6 +29,116 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
     protected EditText  editText;
     protected WeiEditor editor;
+
+    protected TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            //                String text = Html.toHtml(editText.getText());
+            //                Object tag = editText.getTag(R.id.control_tag);
+            //                if (s.length() == 0 && tag != null)
+            //                    editText.setHint(tag.toString());
+            //                if (s.length() > 0) {
+            //                /*
+            //                * if user had pressed enter, replace it with br
+            //                */
+            //                    for (int i = 0; i < s.length(); i++) {
+            //                        if (s.charAt(i) == '\n') {
+            //                            CharSequence           subChars = s.subSequence(0, i);
+            //                            SpannableStringBuilder ssb      = new SpannableStringBuilder(subChars);
+            //                            text = Html.toHtml(ssb);
+            //                            if (text.length() > 0)
+            //                                setText(editText, text);
+            //                            else
+            //                                s.clear();
+            //                            int index = editorCore.getParentView().indexOfChild(editText);
+            //                    /* if the index was 0, set the placeholder to empty, behaviour happens when the user just press enter
+            //                     */
+            //                            if (index == 0) {
+            //                                editText.setHint(null);
+            //                                editText.setTag(R.id.control_tag, hint);
+            //                            }
+            //                            int position = index + 1;
+            //                            String newText = null;
+            //                            int lastIndex = s.length() - 1;
+            //                            int nextIndex = i + 1;
+            //                            if (nextIndex < lastIndex)
+            //                                newText = s.subSequence(nextIndex, lastIndex).toString();
+            //                            insertEditText(position, hint, newText);
+            //                        }
+            //                    }
+            //                }
+            //                if (editorCore.getEditorListener() != null) {
+            //                    editorCore.getEditorListener().onTextChanged(editText, s);
+            //                }
+
+            String text = Html.toHtml(editText.getText());
+            //                String text = "";
+
+            WeiEditorText realData = null;
+            if (mData != null) {
+                realData = mData.data;
+            }
+
+            if (s.length() == 0) {
+                if (realData != null && !TextUtils.isEmpty(realData.hint)) {
+                    editText.setHint(realData.hint);
+                }
+                return;
+            }
+
+            SpannableStringBuilder ssb     = new SpannableStringBuilder();
+            String                 newText = null;
+                /*
+                * if user had pressed enter, replace it with br
+                */
+            for (int i = 0; i < s.length(); i++) {
+                ssb.clear();
+                if (s.charAt(i) == '\n') {
+                    CharSequence subChars = s.subSequence(0, i);
+                    ssb.append(subChars);
+                    text = Html.toHtml(ssb);
+
+                    if (text.length() > 0) {
+                        setText(editText, text);
+                    } else {
+                        s.clear();
+                    }
+
+                    int lastIndex = s.length() - 1;
+                    int nextIndex = i + 1;
+                    if (nextIndex < lastIndex) {
+                        newText = s.subSequence(nextIndex, lastIndex).toString();
+                    }
+
+                    if (editor != null) {
+                        editText.clearFocus();
+//                        editText.setFocusable(false);
+//                        editText.setFocusableInTouchMode(false);
+                        LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
+                                ," insertEditText 文本=====> " + text);
+                        editor.insertEditText(getAdapterPosition() + 1, newText);
+                    }
+                }
+            }
+
+            if (realData != null) {
+                realData.text = text;
+                LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
+                        ," 保存输入框 文本=====> " + text);
+            }
+        }
+    };
+
 
     public WeiEditorVHEditText(View itemView, WeiEditorVHDelegate delegate) {
         super(itemView, delegate);
@@ -48,98 +160,37 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
             }
         });
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //                String text = Html.toHtml(editText.getText());
-                //                Object tag = editText.getTag(R.id.control_tag);
-                //                if (s.length() == 0 && tag != null)
-                //                    editText.setHint(tag.toString());
-                //                if (s.length() > 0) {
-                //                /*
-                //                * if user had pressed enter, replace it with br
-                //                */
-                //                    for (int i = 0; i < s.length(); i++) {
-                //                        if (s.charAt(i) == '\n') {
-                //                            CharSequence           subChars = s.subSequence(0, i);
-                //                            SpannableStringBuilder ssb      = new SpannableStringBuilder(subChars);
-                //                            text = Html.toHtml(ssb);
-                //                            if (text.length() > 0)
-                //                                setText(editText, text);
-                //                            else
-                //                                s.clear();
-                //                            int index = editorCore.getParentView().indexOfChild(editText);
-                //                    /* if the index was 0, set the placeholder to empty, behaviour happens when the user just press enter
-                //                     */
-                //                            if (index == 0) {
-                //                                editText.setHint(null);
-                //                                editText.setTag(R.id.control_tag, hint);
-                //                            }
-                //                            int position = index + 1;
-                //                            String newText = null;
-                //                            int lastIndex = s.length() - 1;
-                //                            int nextIndex = i + 1;
-                //                            if (nextIndex < lastIndex)
-                //                                newText = s.subSequence(nextIndex, lastIndex).toString();
-                //                            insertEditText(position, hint, newText);
-                //                        }
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //                RecyclerView recyclerView = getRecyclerView();
+                //                if (recyclerView != null) {
+                //                    int position = getLayoutPosition();
+                //                    RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForLayoutPosition(position + 1);
+                //                    if (viewHolder == null) {
+                //                        recyclerView.smoothScrollToPosition(position + 1);
+                //                        return true;
                 //                    }
                 //                }
-                //                if (editorCore.getEditorListener() != null) {
-                //                    editorCore.getEditorListener().onTextChanged(editText, s);
-                //                }
 
-//                String text = Html.toHtml(editText.getText());
-                String text = "";
-
-                if (s.length() == 0) {
-                    if (mData != null) {
-                        WeiEditorText realData = mData.data;
-                        if (realData != null && !TextUtils.isEmpty(realData.hint)) {
-                            editText.setHint(realData.hint);
-                        }
-                    }
+                if (editor != null) {
+                    int position = getLayoutPosition();
+                    editor.scrollToPosition(position + 1);
                 }
 
-                SpannableStringBuilder ssb = new SpannableStringBuilder();
-                /*
-                * if user had pressed enter, replace it with br
-                */
-                for (int i = 0; i < s.length(); i++) {
-                    ssb.clear();
-                    if (s.charAt(i) == '\n') {
-                        CharSequence subChars = s.subSequence(0, i);
-                        ssb.append(subChars);
-                        text = Html.toHtml(ssb);
-
-                        if (text.length() > 0) {
-                            setText(editText, text);
-                        } else {
-                            s.clear();
-                        }
-
-                        if (editor != null) {
-                            editor.insertEditText(getAdapterPosition() + 1);
-                        }
-                    }
-                }
+                return false;
             }
         });
     }
 
     @Override
     public void onBindViewHolder(int position, WeiEditorVHBaseData<WeiEditorText> data) {
+//        LogTool.getInstance().saveLog(getClass().getName(), this, "    onBindViewHolder======> " + position);
         super.onBindViewHolder(position, data);
+//        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
+
+        editText.removeTextChangedListener(textWatcher);
         if (data == null) {
             return;
         }
@@ -149,17 +200,39 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
             return;
         }
 
-        if (TextUtils.isEmpty(realData.hint)) {
-            editText.setHint("");
+        if (TextUtils.isEmpty(realData.text)) {
+            editText.setText("");
+
+            if (TextUtils.isEmpty(realData.hint)) {
+                editText.setHint("");
+            } else {
+                editText.setHint(realData.hint);
+            }
+
         } else {
-            editText.setHint(realData.hint);
+            LogTool.getInstance().saveLog(" onBindViewHolder 设置 文本=====> " + realData.text);
+//            editText.setText(realData.text);
+            setText(editText, realData.text);
         }
 
         if (realData.isRequestFocus) {
+//            editText.setFocusable(true);
+//            editText.setFocusableInTouchMode(true);
+
             realData.isRequestFocus = false;
-            setFocus(editText);
+            //            editor.scrollToPosition(position);
+            editText.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setFocus(editText);
+                    editText.setSelection(0);
+                }
+            }, 0);
         }
+
+        editText.addTextChangedListener(textWatcher);
     }
+
 
     public void setFocus(EditText view) {
         view.requestFocus();
@@ -172,6 +245,8 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
     public void setText(TextView textView, String text) {
         CharSequence toReplace = getSanitizedHtml(text);
         textView.setText(toReplace);
+
+        LogTool.getInstance().saveLog(" 222 setText 文本=====> " + toReplace);
     }
 
     CharSequence getSanitizedHtml(String text) {

@@ -1,6 +1,7 @@
 package com.pengjunwei.android.editor.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -35,5 +36,13 @@ public class WeiEditorRecyclerView extends RecyclerView{
         super.addOnLayoutChangeListener(listener);
     }
 
-
+    @Override
+    protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+        ///////////////////////////////////////////////////////////////////////////
+        // 取消 某个子项失去焦点后 自动定位到 下个焦点的EditText
+        // 例如 按Enter键后插入一行新的EditText 需要先关闭之前的EditText焦点，新的EditText获取焦点
+        ///////////////////////////////////////////////////////////////////////////
+        return true;
+//        return super.onRequestFocusInDescendants(direction, previouslyFocusedRect);
+    }
 }

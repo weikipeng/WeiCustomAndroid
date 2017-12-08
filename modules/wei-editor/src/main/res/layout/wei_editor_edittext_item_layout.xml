@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     tools:background="#0000FF">
 
-    <EditText
+    <com.pengjunwei.android.editor.view.WeiEditorEditText
         android:focusedByDefault="false"
         android:id="@+id/editorEditText"
         android:layout_width="match_parent"

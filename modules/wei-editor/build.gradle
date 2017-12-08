@@ -29,6 +29,7 @@ dependencies {
     implementation deps.support.v4
     implementation deps.support.recyclerView
     implementation deps.support.constraint
+    implementation deps.support.design
 
     implementation project(':modules:common-lib')
 

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.pengjunwei.android.editor.R;
 import com.pengjunwei.android.editor.WeiEditor;
 import com.pengjunwei.android.editor.model.WeiEditorText;
 import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
+import com.pengjunwei.android.editor.view.WeiEditorEditText;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHBase;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
 import com.pengjunwei.common.lib.LogTool;
@@ -27,8 +29,8 @@ import com.pengjunwei.common.lib.LogTool;
  */
 public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
-    protected EditText  editText;
-    protected WeiEditor editor;
+    protected WeiEditorEditText editText;
+    protected WeiEditor         editor;
 
     protected TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -114,7 +116,11 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                         s.clear();
                     }
 
-                    int lastIndex = s.length() - 1;
+                    int lastIndex = s.length();
+                    if (lastIndex > 0 && s.charAt(lastIndex - 1) == '\n') {
+                        lastIndex = lastIndex - 1;
+                    }
+
                     int nextIndex = i + 1;
                     if (nextIndex < lastIndex) {
                         newText = s.subSequence(nextIndex, lastIndex).toString();
@@ -122,10 +128,13 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
                     if (editor != null) {
                         editText.clearFocus();
-//                        editText.setFocusable(false);
 //                        editText.setFocusableInTouchMode(false);
+//                        editText.setFocusable(false);
+//                        editText.setFocusableInTouchMode(true);
+//                        editText.setFocusable(true);
+
                         LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
-                                ," insertEditText 文本=====> " + text);
+                                , " insertEditText 文本=====> " + text);
                         editor.insertEditText(getAdapterPosition() + 1, newText);
                     }
                 }
@@ -134,7 +143,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
             if (realData != null) {
                 realData.text = text;
                 LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
-                        ," 保存输入框 文本=====> " + text);
+                        , " 保存输入框 文本=====> " + text);
             }
         }
     };
@@ -177,6 +186,11 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                 if (editor != null) {
                     int position = getLayoutPosition();
                     editor.scrollToPosition(position + 1);
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    }
+                    LogTool.getInstance().saveLog("onEditorAction ===> true"," actionId:",actionId);
+                    return false;
                 }
 
                 return false;
@@ -186,9 +200,9 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
     @Override
     public void onBindViewHolder(int position, WeiEditorVHBaseData<WeiEditorText> data) {
-//        LogTool.getInstance().saveLog(getClass().getName(), this, "    onBindViewHolder======> " + position);
+        //        LogTool.getInstance().saveLog(getClass().getName(), this, "    onBindViewHolder======> " + position);
         super.onBindViewHolder(position, data);
-//        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
+        //        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
 
         editText.removeTextChangedListener(textWatcher);
         if (data == null) {
@@ -211,13 +225,13 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
         } else {
             LogTool.getInstance().saveLog(" onBindViewHolder 设置 文本=====> " + realData.text);
-//            editText.setText(realData.text);
+            //            editText.setText(realData.text);
             setText(editText, realData.text);
         }
 
         if (realData.isRequestFocus) {
-//            editText.setFocusable(true);
-//            editText.setFocusableInTouchMode(true);
+            //            editText.setFocusable(true);
+            //            editText.setFocusableInTouchMode(true);
 
             realData.isRequestFocus = false;
             //            editor.scrollToPosition(position);
@@ -237,7 +251,9 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
     public void setFocus(EditText view) {
         view.requestFocus();
         InputMethodManager mgr = (InputMethodManager) itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mgr.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        if (mgr != null) {
+            mgr.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
         view.setSelection(view.getText().length());
         //        editorCore.setActiveView(view);
     }

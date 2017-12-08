@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,11 +18,14 @@ import com.pengjunwei.android.editor.model.WeiEditorSpaceItem;
 import com.pengjunwei.android.editor.model.WeiEditorText;
 import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
 import com.pengjunwei.android.editor.model.WeiEditorVHStyle;
+import com.pengjunwei.android.editor.view.WeiEditorEditText;
 import com.pengjunwei.android.editor.view.WeiEditorLayoutManager;
+import com.pengjunwei.android.editor.viewholder.WeiEditorVHBase;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHMenuItem;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHProvider;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHSpace;
+import com.pengjunwei.common.lib.LogTool;
 
 /**
  * 本地化编辑器
@@ -45,6 +49,16 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
     protected LinearLayoutManager      contentLayoutManager;
     protected WeiEditorContentAdapter  contentAdapter;
 
+    /**
+     * 临时过度焦点的视图
+     */
+    protected WeiEditorEditText tempEditText;
+
+    /**
+     * 当前获取焦点的viewHolder
+     */
+    protected WeiEditorVHBase currentFocusViewHolder;
+    protected int             currentFocusViewPosition;
 
     public WeiEditor(Context context) {
         this(context, null);
@@ -97,6 +111,7 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         title = findViewById(R.id.editorTitle);
         menuRecyclerView = findViewById(R.id.editorMenuRecyclerView);
         contentRecyclerView = findViewById(R.id.editorRecyclerView);
+        tempEditText = findViewById(R.id.tempEditText);
 
         Context context = getContext();
         menuLayoutManager = new WeiEditorLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -108,6 +123,31 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         contentRecyclerView.setAdapter(contentAdapter);
 
         initDefaultMenu();
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        LogTool.getInstance().saveLog("dispatchKeyEvent  ===> ", event);
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean dispatchKeyEventPreIme(KeyEvent event) {
+        LogTool.getInstance().saveLog("dispatchKeyEventPreIme  ===> ", event);
+        return super.dispatchKeyEventPreIme(event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        LogTool.getInstance().saveLog("onKeyUp ===> ", keyCode
+                , " event===> ", event
+        );
+        return super.onKeyUp(keyCode, event);
+    }
+
+    public void updateFocusViewHolder(WeiEditorVHBase viewHolder, int position) {
+        this.currentFocusViewHolder = viewHolder;
+        this.currentFocusViewPosition = position;
     }
 
     public void initDefaultMenu() {
@@ -189,16 +229,16 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         } else {
             contentAdapter.add(position, tempData);
         }
-//        LogTool.getInstance().saveLog("insertEditText ===> ", position
-//                , " text===> ", newText
-//        );
+        //        LogTool.getInstance().saveLog("insertEditText ===> ", position
+        //                , " text===> ", newText
+        //        );
 
-//        contentRecyclerView.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
+        //        contentRecyclerView.postDelayed(new Runnable() {
+        //            @Override
+        //            public void run() {
         contentAdapter.notifyItemInserted(position);
-//            }
-//        }, 0);
+        //            }
+        //        }, 0);
     }
 
     public void scrollToPosition(int position) {

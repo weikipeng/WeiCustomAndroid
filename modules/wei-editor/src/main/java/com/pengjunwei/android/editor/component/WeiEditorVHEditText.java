@@ -86,10 +86,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
             String text = Html.toHtml(editText.getText());
             //                String text = "";
 
-            WeiEditorText realData = null;
-            if (mData != null) {
-                realData = mData.data;
-            }
+            WeiEditorText realData = getRealData();
 
             if (s.length() == 0) {
                 if (realData != null && !TextUtils.isEmpty(realData.hint)) {
@@ -128,10 +125,10 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
                     if (editor != null) {
                         editText.clearFocus();
-//                        editText.setFocusableInTouchMode(false);
-//                        editText.setFocusable(false);
-//                        editText.setFocusableInTouchMode(true);
-//                        editText.setFocusable(true);
+                        //                        editText.setFocusableInTouchMode(false);
+                        //                        editText.setFocusable(false);
+                        //                        editText.setFocusableInTouchMode(true);
+                        //                        editText.setFocusable(true);
 
                         LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
                                 , " insertEditText 文本=====> " + text);
@@ -166,6 +163,14 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                 } else {
                     //                    editorCore.setActiveView(v);
                 }
+
+                WeiEditorText realData = getRealData();
+
+                if (realData == null) {
+                    return;
+                }
+
+                realData.isFocus = hasFocus;
             }
         });
 
@@ -189,7 +194,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                     }
-                    LogTool.getInstance().saveLog("onEditorAction ===> true"," actionId:",actionId);
+                    LogTool.getInstance().saveLog("onEditorAction ===> true", " actionId:", actionId);
                     return false;
                 }
 
@@ -205,11 +210,8 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
         //        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
 
         editText.removeTextChangedListener(textWatcher);
-        if (data == null) {
-            return;
-        }
 
-        WeiEditorText realData = data.data;
+        WeiEditorText realData = getRealData();
         if (realData == null) {
             return;
         }
@@ -230,21 +232,24 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
         }
 
         if (realData.isRequestFocus) {
-            //            editText.setFocusable(true);
-            //            editText.setFocusableInTouchMode(true);
-
             realData.isRequestFocus = false;
-            //            editor.scrollToPosition(position);
-            editText.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setFocus(editText);
-                    editText.setSelection(0);
-                }
-            }, 0);
+            requestFocus(editText);
         }
 
         editText.addTextChangedListener(textWatcher);
+    }
+
+    protected void requestFocus(final WeiEditorEditText tempEditText) {
+        //            editText.setFocusable(true);
+        //            editText.setFocusableInTouchMode(true);
+        //            editor.scrollToPosition(position);
+        tempEditText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setFocus(tempEditText);
+                tempEditText.setSelection(0);
+            }
+        }, 0);
     }
 
 
@@ -280,4 +285,22 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
         return text;
     }
 
+    @Override
+    public void onViewAttachedToWindow() {
+        LogTool.getInstance().saveLog(getClass().getName(), this, "    onViewAttachedToWindow======> ");
+    }
+
+    @Override
+    public void onViewDetachedFromWindow() {
+        LogTool.getInstance().saveLog(getClass().getName(), this, "    onViewDetachedFromWindow======> ");
+
+        WeiEditorText realData = getRealData();
+        if (realData == null) {
+            return;
+        }
+
+        if (editor != null && realData.isFocus) {
+
+        }
+    }
 }

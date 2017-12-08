@@ -53,11 +53,18 @@ public class WeiEditorTemplateAdapter<D> extends WeiEditorBaseAdapter<WeiEditorV
     @Override
     public void onViewAttachedToWindow(WeiEditorVHBase holder) {
         super.onViewAttachedToWindow(holder);
+        if (holder != null) {
+            holder.onViewAttachedToWindow();
+        }
+
     }
 
     @Override
     public void onViewDetachedFromWindow(WeiEditorVHBase holder) {
         super.onViewDetachedFromWindow(holder);
+        if (holder != null) {
+            holder.onViewDetachedFromWindow();
+        }
     }
 
     public void addData(Object data) {

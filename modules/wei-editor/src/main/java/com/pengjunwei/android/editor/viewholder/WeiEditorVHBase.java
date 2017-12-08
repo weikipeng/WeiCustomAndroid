@@ -11,9 +11,9 @@ import com.pengjunwei.android.editor.model.WeiEditorVHStyle;
 /**
  * Created by wikipeng on 2017/12/7.
  */
-public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder implements WeiEditorVH{
-    public WeiEditorVHBaseData<T>        mData;
-    public WeiEditorVHDelegate delegate;
+public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder implements WeiEditorVH {
+    public WeiEditorVHBaseData<T> mData;
+    public WeiEditorVHDelegate    delegate;
 
     public WeiEditorVHBase(View itemView, WeiEditorVHDelegate delegate) {
         super(itemView);
@@ -26,7 +26,7 @@ public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder impleme
         updateViewStyle(itemView, mData.getStyle());
     }
 
-    public void updateViewStyle(View view, WeiEditorVHStyle style){
+    public void updateViewStyle(View view, WeiEditorVHStyle style) {
         if (view == null) {
             return;
         }
@@ -40,5 +40,19 @@ public abstract class WeiEditorVHBase<T> extends RecyclerView.ViewHolder impleme
             layoutParams.width = style.getWidth();
             layoutParams.height = style.getHeight();
         }
+    }
+
+    public T getRealData(){
+        if (mData != null) {
+            return mData.data;
+        }
+
+        return null;
+    }
+
+    public void onViewAttachedToWindow() {
+    }
+
+    public void onViewDetachedFromWindow() {
     }
 }

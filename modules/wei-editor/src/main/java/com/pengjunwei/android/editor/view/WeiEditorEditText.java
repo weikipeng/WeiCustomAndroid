@@ -30,4 +30,16 @@ public class WeiEditorEditText extends TextInputEditText {
         );
         return super.onKeyUp(keyCode, event);
     }
+
+//    @Override
+//    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+//        return super.onCreateInputConnection(outAttrs);
+//    }
+//
+//    private class CustomInputConnection extends InputConnectionWrapper {
+//
+//        public CustomInputConnection(InputConnection target, boolean mutable) {
+//            super(target, mutable);
+//        }
+//    }
 }

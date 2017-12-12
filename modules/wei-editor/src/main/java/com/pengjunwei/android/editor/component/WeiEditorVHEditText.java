@@ -107,12 +107,6 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                     ssb.append(subChars);
                     text = Html.toHtml(ssb);
 
-                    if (text.length() > 0) {
-                        setText(editText, text);
-                    } else {
-                        s.clear();
-                    }
-
                     int lastIndex = s.length();
                     if (lastIndex > 0 && s.charAt(lastIndex - 1) == '\n') {
                         lastIndex = lastIndex - 1;
@@ -133,6 +127,15 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                         LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
                                 , " insertEditText 文本=====> " + text);
                         editor.insertEditText(getAdapterPosition() + 1, newText);
+                    }
+
+
+                    if (text.length() > 0) {
+                        editText.removeTextChangedListener(this);
+                        setText(editText, text);
+                        editText.addTextChangedListener(this);
+                    } else {
+                        s.clear();
                     }
                 }
             }
@@ -209,31 +212,36 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
         super.onBindViewHolder(position, data);
         //        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
 
-        editText.removeTextChangedListener(textWatcher);
 
         WeiEditorText realData = getRealData();
         if (realData == null) {
             return;
         }
 
-        if (TextUtils.isEmpty(realData.text)) {
-            editText.setText("");
-
-            if (TextUtils.isEmpty(realData.hint)) {
-                editText.setHint("");
-            } else {
-                editText.setHint(realData.hint);
-            }
-
-        } else {
-            LogTool.getInstance().saveLog(" onBindViewHolder 设置 文本=====> " + realData.text);
-            //            editText.setText(realData.text);
-            setText(editText, realData.text);
-        }
+        updateTextPure(realData.text, realData.hint);
 
         if (realData.isRequestFocus) {
             realData.isRequestFocus = false;
             requestFocus(editText);
+        }
+    }
+
+    public void updateTextPure(String text, String hint) {
+        editText.removeTextChangedListener(textWatcher);
+
+        if (TextUtils.isEmpty(text)) {
+            editText.setText("");
+
+            if (TextUtils.isEmpty(hint)) {
+                editText.setHint("");
+            } else {
+                editText.setHint(hint);
+            }
+
+        } else {
+            LogTool.getInstance().saveLog(" onBindViewHolder 设置 文本=====> " + text);
+            //            editText.setText(realData.text);
+            setText(editText, text);
         }
 
         editText.addTextChangedListener(textWatcher);

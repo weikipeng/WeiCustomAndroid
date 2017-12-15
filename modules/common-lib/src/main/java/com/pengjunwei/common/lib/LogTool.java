@@ -2,11 +2,9 @@ package com.pengjunwei.common.lib;
 
 public class LogTool {
 
-    private static LogTool sDevLogTool;
-
     public static boolean FLAG = true;
-
-    private Delegate mDelegate;
+    private static LogTool  sDevLogTool;
+    private        Delegate mDelegate;
 
     private LogTool() {
 
@@ -50,7 +48,7 @@ public class LogTool {
         //        Log.e("jzb", "jzbFocus debug " + codeMessage + log);
 
         if (mDelegate != null) {
-            mDelegate.executeLog("jzb", "jzbFocus debug " + codeMessage + log);
+            mDelegate.executeLog(className, "jzbFocus debug " + codeMessage + log);
         }
     }
 
@@ -105,3 +103,4 @@ public class LogTool {
     }
 
 }
+

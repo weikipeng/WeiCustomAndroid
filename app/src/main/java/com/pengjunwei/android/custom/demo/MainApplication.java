@@ -3,6 +3,7 @@ package com.pengjunwei.android.custom.demo;
 import android.app.Application;
 import android.util.Log;
 
+import com.facebook.stetho.Stetho;
 import com.pengjunwei.common.lib.LogTool;
 
 /**
@@ -12,6 +13,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
         LogTool.getInstance().setDelegate(new LogTool.Delegate() {
             @Override
             public void executeLog(String tag, String message) {

@@ -44,6 +44,7 @@ dependencies {
     implementation project(':modules:android-support')
     implementation project(':modules:common-lib')
     implementation project(':modules:wei-editor')
+    implementation deps.stetho.core
 
     debugCompile project(":modules:hugo:hugo-runtime")
     debugCompile 'org.aspectj:aspectjrt:1.8.6'

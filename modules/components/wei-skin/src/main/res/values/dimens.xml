@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- 规范字体大小-->
+    <dimen name="standard_T1">21sp</dimen>
+    <dimen name="standard_T2">16sp</dimen>
+    <dimen name="standard_T3">15sp</dimen>
+    <dimen name="standard_T4">14sp</dimen>
+    <dimen name="standard_T5">12sp</dimen>
+    <dimen name="standard_T6">11sp</dimen>
+
+    <!-- 规范字体大小-->
+    <dimen name="text_T1">18sp</dimen>
+    <dimen name="text_T2">16sp</dimen>
+    <dimen name="text_T3">15sp</dimen>
+    <dimen name="text_T4">14sp</dimen>
+    <dimen name="text_T5">12sp</dimen>
+    <dimen name="text_T6">10sp</dimen>
+    <dimen name="text_T7">13sp</dimen>
+    <dimen name="text_T8">11sp</dimen>
+    <dimen name="text_T9">19sp</dimen>
+
+    <dimen name="normal_text">16sp</dimen>
+
+    <dimen name="activity_padding">14dp</dimen>
+    <dimen name="activity_padding_10">10dp</dimen>
+    <dimen name="activity_padding_15">15dp</dimen>
+    <dimen name="activity_thread_padding">10dp</dimen>
+
+    <dimen name="list_item_left_title_margin_right">20dp</dimen>
+    <dimen name="list_item_padding_top">20dp</dimen>
+    <dimen name="list_item_padding_bottom">20dp</dimen>
+</resources>

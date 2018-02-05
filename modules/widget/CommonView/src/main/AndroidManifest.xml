@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.jzb.android.widget.common">
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="com.loopeer.shadow"/>
+</manifest>

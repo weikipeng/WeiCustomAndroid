@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    api project(':modules:android-support')
     implementation project(':modules:android-support')
-    implementation project(':modules:common-lib')
+    implementation project(':modules:common:log')
     implementation project(':modules:wei-editor')
     implementation deps.stetho.core
 

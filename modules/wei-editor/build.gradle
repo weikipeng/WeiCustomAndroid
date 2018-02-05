@@ -31,7 +31,7 @@ dependencies {
     implementation deps.support.constraint
     implementation deps.support.design
 
-    implementation project(':modules:common-lib')
+    implementation project(':modules:common:log')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

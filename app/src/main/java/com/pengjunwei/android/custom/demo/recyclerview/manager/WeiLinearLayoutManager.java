@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pengjunwei.common.lib.LogTool;
+import com.jzb.common.LogTool;
+
 
 /**
  * Created by wikipeng on 2017/12/15.

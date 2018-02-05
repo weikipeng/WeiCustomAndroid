@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jzb.common.LogTool;
 import com.pengjunwei.android.editor.R;
 import com.pengjunwei.android.editor.WeiEditor;
 import com.pengjunwei.android.editor.model.WeiEditorText;
@@ -21,7 +22,6 @@ import com.pengjunwei.android.editor.model.WeiEditorVHBaseData;
 import com.pengjunwei.android.editor.view.WeiEditorEditText;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHBase;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
-import com.pengjunwei.common.lib.LogTool;
 
 /**
  * 文本输入框

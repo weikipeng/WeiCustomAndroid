@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="@android:integer/config_mediumAnimTime"
+    android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+
+    <!--<item android:state_pressed="true">-->
+    <!--<color android:color="@color/click_feedback_ripple_press"/>-->
+    <!--</item>-->
+    <!--<item>-->
+    <!--<color android:color="@android:color/transparent"/>-->
+    <!--</item>-->
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/click_feedback_ripple_press"/>
+            <corners android:radius="6dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/>
+            <corners android:radius="6dp"/>
+        </shape>
+    </item>
+
+</selector>

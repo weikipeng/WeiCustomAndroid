@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jzb.android.widget.common.JzbButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/buttonFollow"
+    style="@style/JzbButton"
+    android:layout_width="wrap_content"
+    android:layout_height="25dp"
+    android:minWidth="50dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:textSize="15sp"
+    app:Jzb_bgShape="rectangle"
+    app:Jzb_bgShapeBorderCheckedColor="@color/text_C6"
+    app:Jzb_bgShapeBorderColor="#a7d7ff"
+    app:Jzb_bgShapeBorderSize="1px"
+    app:Jzb_bgShapeCheckedColor="#00000000"
+    app:Jzb_bgShapeColor="#00000000"
+    app:Jzb_bgShapeCorner="50dp"
+    app:Jzb_textCheckedColor="@color/text_C6"
+    app:Jzb_textColor="#0a8cdd"
+    app:Jzb_textOff="关注"
+    app:Jzb_textOn="已关注"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="关注"/>
+
+    <!--android:text="@string/follow"-->
+    <!--    android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+    -->

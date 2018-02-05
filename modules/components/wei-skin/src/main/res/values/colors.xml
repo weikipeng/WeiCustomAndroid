@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 搜索 规范字体颜色-->
+    <color name="text_C1_search">#52ACF7</color>
+    <color name="text_C1_growth">#52ACF7</color>
+
+    <!--6.5start 规范颜色-->
+    <color name="standard_C1">#0A8CDD</color>
+    <color name="standard_C2">#FF9600</color>
+    <color name="standard_C3">#889AAC</color>
+    <color name="standard_C4">#333333</color>
+    <color name="standard_C5">#555555</color>
+    <color name="standard_C6">#999999</color>
+    <color name="standard_C7">#BBBBBB</color>
+    <color name="standard_C8">#F0F0F0</color>
+    <color name="standard_C9">#FAFAFA</color>
+    <color name="standard_C10">#FF4747</color>
+
+    <!-- 规范字体颜色-->
+    <color name="text_C1">#0A8CDD</color>
+    <color name="text_C2">#FF9600</color>
+    <color name="text_C3">#889aac</color>
+    <color name="text_C4">#333333</color>
+    <color name="text_C5">#555555</color>
+    <color name="text_C6">#999999</color>
+    <color name="text_C7">#bbbbbb</color>
+    <color name="text_C8">#FFFFFF</color>
+    <color name="text_C19">#1D9DD4</color>
+    <color name="text_C666">#666666</color>
+    <color name="text_C222">#222222</color>
+
+    <color name="divider">#F0F0F0</color>
+
+    <color name="normal_text">#222222</color>
+
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="background_window">#FAFAFA</color>
+    <!--页面内容背景-->
+    <color name="background_content">#FFFFFF</color>
+    <color name="click_feedback_ripple_press">#F5F9FC</color>
+    <color name="circle_list_alternate_color">#FAFAFA</color>
+</resources>

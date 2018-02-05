@@ -5,9 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
+import com.jzb.common.LogTool;
 import com.pengjunwei.android.custom.demo.R;
 import com.pengjunwei.android.editor.WeiEditor;
-import com.pengjunwei.common.lib.LogTool;
+
 
 /**
  * 编辑器测试Activity

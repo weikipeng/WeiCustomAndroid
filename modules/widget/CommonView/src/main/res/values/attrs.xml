@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="shadowColor" format="color|reference"/>
+    <attr name="cornerRadius" format="dimension|reference"/>
+
+    <declare-styleable name="JzbView">
+        <attr name="shadowColor"/>
+        <attr name="shadowSize" format="dimension|reference"/>
+        <attr name="isShadowGradient" format="boolean|reference"/>
+        <attr name="isCircular" format="boolean|reference"/>
+        <attr name="cornerRadius"/>
+    </declare-styleable>
+
+    <declare-styleable name="JzbLayout">
+        <attr name="isAutoClearFocus" format="boolean"/>
+        <attr name="Jzb_layout_gravity" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="JzbAttrs">
+
+        <!--背景形状相关-->
+        <attr name="Jzb_bgShape" format="integer">
+            <enum name="oval" value="1"/>
+            <enum name="rectangle" value="2"/>
+        </attr>
+
+        <attr name="Jzb_bgShapeColor" format="color"/>
+        <attr name="Jzb_bgShapeCheckedColor" format="color"/>
+        <attr name="Jzb_bgShapeBorderColor" format="color"/>
+        <attr name="Jzb_bgShapeBorderCheckedColor" format="color"/>
+        <attr name="Jzb_bgShapeBorderSize" format="dimension"/>
+        <attr name="Jzb_bgShapeCorner" format="dimension"/>
+        <attr name="Jzb_bgShapeCorner_Top_Left" format="dimension"/>
+        <attr name="Jzb_bgShapeCorner_Top_Right" format="dimension"/>
+        <attr name="Jzb_bgShapeCorner_Bottom_Left" format="dimension"/>
+        <attr name="Jzb_bgShapeCorner_Bottom_Right" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="JzbTextAttrs">
+        <!--文字相关-->
+        <attr name="Jzb_textColor" format="color|reference"/>
+        <attr name="Jzb_textCheckedColor" format="color|reference"/>
+        <attr name="Jzb_textOn" format="string|reference"/>
+        <attr name="Jzb_textOff" format="string|reference"/>
+    </declare-styleable>
+</resources>

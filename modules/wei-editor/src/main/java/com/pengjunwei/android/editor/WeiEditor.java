@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jzb.common.LogTool;
 import com.pengjunwei.android.editor.component.WeiEditorVHEditText;
 import com.pengjunwei.android.editor.model.WeiEditorMenuItem;
 import com.pengjunwei.android.editor.model.WeiEditorSpaceItem;
@@ -25,7 +26,6 @@ import com.pengjunwei.android.editor.viewholder.WeiEditorVHDelegate;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHMenuItem;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHProvider;
 import com.pengjunwei.android.editor.viewholder.WeiEditorVHSpace;
-import com.pengjunwei.common.lib.LogTool;
 
 /**
  * 本地化编辑器

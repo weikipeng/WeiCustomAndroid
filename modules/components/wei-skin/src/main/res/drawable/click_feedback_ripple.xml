@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@android:integer/config_mediumAnimTime" android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+
+    <item android:state_pressed="true">
+        <color android:color="@color/click_feedback_ripple_press" />
+    </item>
+    <item>
+        <color android:color="@color/background_content" />
+    </item>
+
+</selector>

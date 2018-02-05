@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--按钮-->
+    <style name="JzbButton" parent="TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">@dimen/text_T4</item>
+    </style>
+
+
+    <!--6.7-->
+    <style name="ListItem">
+
+    </style>
+
+    <style name="ListItem.Title" parent="TextView.T2.C4">
+        <item name="android:textSize">17sp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="ListItem.Title.Margin">
+        <item name="android:layout_marginLeft">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginRight">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginTop">@dimen/list_item_padding_top</item>
+    </style>
+
+    <style name="ListItem.Title.Top">
+        <item name="android:layout_marginLeft">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginRight">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginTop">@dimen/list_item_padding_top</item>
+    </style>
+
+    <style name="ListItem.Title.Top.Left">
+        <item name="android:layout_marginRight">@dimen/list_item_left_title_margin_right</item>
+    </style>
+
+    <style name="ListItem.Title.Left">
+        <item name="android:layout_marginLeft">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginRight">@dimen/list_item_left_title_margin_right</item>
+    </style>
+
+    <style name="ListItem.Summary" parent="ListItem.Title">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/standard_C6</item>
+    </style>
+
+    <style name="ListItem.Summary.Left">
+        <item name="android:layout_marginLeft">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginRight">@dimen/list_item_left_title_margin_right</item>
+    </style>
+
+    <style name="ListItem.Summary.Left.Bottom">
+        <item name="android:layout_marginRight">@dimen/list_item_left_title_margin_right</item>
+    </style>
+
+    <style name="ListItem.Summary.Margin">
+        <item name="android:layout_marginTop">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginLeft">@dimen/activity_padding_15</item>
+        <item name="android:layout_marginRight">@dimen/activity_padding_15</item>
+    </style>
+
+    <style name="ListItem.Info" parent="TextView.T8.C7">
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="ListItem.Icon" parent="ImageView">
+    </style>
+
+    <!--图片-->
+    <style name="ImageView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!--android:id="@+id/image"-->
+    <style name="ListItem.ImageView" parent="ImageView">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">70dp</item>
+    </style>
+
+    <style name="ListItem.ImageView.Right">
+        <item name="android:layout_marginRight">@dimen/activity_padding_15</item>
+    </style>
+
+
+    <!-- 4.0.2 统一样式-->
+    <style name="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/normal_text</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextView.T3">
+        <item name="android:textColor">@color/text_C3</item>
+        <item name="android:textSize">@dimen/text_T3</item>
+    </style>
+
+    <style name="TextView.T3.C1">
+        <item name="android:textColor">@color/text_C1</item>
+    </style>
+
+    <style name="TextView.T3.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T3.C4">
+        <item name="android:textColor">@color/text_C4</item>
+    </style>
+
+    <style name="TextView.T7">
+        <item name="android:textSize">@dimen/text_T7</item>
+        <item name="android:textColor">@color/text_C7</item>
+    </style>
+
+    <style name="TextView.T7.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T3.C5">
+        <item name="android:textColor">@color/text_C5</item>
+    </style>
+
+    <style name="TextView.T3.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T3.C7">
+        <item name="android:textColor">@color/text_C7</item>
+    </style>
+
+    <style name="TextView.T4">
+        <item name="android:textColor">@color/text_C4</item>
+        <item name="android:textSize">@dimen/text_T4</item>
+    </style>
+
+    <style name="TextView.T4.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T4.C1">
+        <item name="android:textColor">@color/text_C1</item>
+    </style>
+
+    <style name="TextView.T4.C2">
+        <item name="android:textColor">@color/text_C2</item>
+    </style>
+
+    <style name="TextView.T4.C3">
+        <item name="android:textColor">@color/text_C3</item>
+    </style>
+
+    <style name="TextView.T4.C5">
+        <item name="android:textColor">@color/text_C5</item>
+    </style>
+
+    <style name="TextView.T4.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T4.C666">
+        <item name="android:textColor">@color/text_C666</item>
+    </style>
+
+    <style name="TextView.T5">
+        <item name="android:textColor">@color/text_C5</item>
+        <item name="android:textSize">@dimen/text_T5</item>
+    </style>
+
+    <style name="TextView.T5.C1">
+        <item name="android:textColor">@color/text_C1</item>
+    </style>
+
+    <style name="TextView.T5.C2">
+        <item name="android:textColor">@color/text_C2</item>
+    </style>
+
+    <style name="TextView.T5.C3">
+        <item name="android:textColor">@color/text_C3</item>
+    </style>
+
+    <style name="TextView.T5.C4">
+        <item name="android:textColor">@color/text_C4</item>
+    </style>
+
+    <style name="TextView.T5.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T5.C7">
+        <item name="android:textColor">@color/text_C7</item>
+    </style>
+
+    <style name="TextView.T5.C8">
+        <item name="android:textColor">@color/text_C8</item>
+    </style>
+
+    <style name="TextView.T6.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T5.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T6">
+        <item name="android:textColor">@color/text_C6</item>
+        <item name="android:textSize">@dimen/text_T6</item>
+    </style>
+
+    <style name="TextView.T6.C7">
+        <item name="android:textColor">@color/text_C7</item>
+    </style>
+
+    <style name="TextView.T6.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T8">
+        <item name="android:textSize">@dimen/text_T8</item>
+        <item name="android:textColor">@color/text_C8</item>
+    </style>
+
+    <style name="TextView.T8.C7">
+        <item name="android:textColor">@color/text_C7</item>
+    </style>
+
+    <style name="TextView.T8.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T8.C2">
+        <item name="android:textColor">@color/text_C2</item>
+    </style>
+
+    <style name="TextView.T9" parent="TextView.T4">
+        <item name="android:textSize">@dimen/text_T9</item>
+    </style>
+
+    <style name="TextView.T9.C4">
+    </style>
+
+    <style name="TextView.T9.C4.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.T1">
+        <item name="android:textColor">@color/text_C1</item>
+        <item name="android:textSize">@dimen/text_T1</item>
+    </style>
+
+    <style name="TextView.T2">
+        <item name="android:textColor">@color/text_C2</item>
+        <item name="android:textSize">@dimen/text_T2</item>
+    </style>
+
+    <style name="TextView.T2.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextView.T2.C4">
+        <item name="android:textColor">@color/text_C4</item>
+    </style>
+
+    <style name="TextView.T2.C5">
+        <item name="android:textColor">@color/text_C5</item>
+    </style>
+
+    <style name="TextView.T2.C6">
+        <item name="android:textColor">@color/text_C6</item>
+    </style>
+
+    <style name="TextView.T2.C1">
+        <item name="android:textColor">@color/text_C1</item>
+    </style>
+</resources>

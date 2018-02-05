@@ -1,6 +1,12 @@
-include ':modules:common-lib'
 include ':modules:wei-editor'
 include ":modules:android-support",':app'
 include ':modules:hugo:hugo-annotations'
 include ':modules:hugo:hugo-plugin'
 include ':modules:hugo:hugo-runtime'
+
+include ':modules:common:log'
+include ':modules:components:wei-http'
+include ':modules:components:wei-Rx'
+include ':modules:components:wei-skin'
+
+include ':modules:widget:CommonView'

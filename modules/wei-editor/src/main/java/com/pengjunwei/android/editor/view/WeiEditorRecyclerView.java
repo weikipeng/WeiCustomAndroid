@@ -6,7 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.pengjunwei.common.lib.LogTool;
+import com.jzb.common.LogTool;
+
 
 /**
  * Created by wikipeng on 2017/12/8.

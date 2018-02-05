@@ -42,8 +42,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    api project(':modules:android-support')
     implementation project(':modules:android-support')
+    implementation project(':modules:widget:CommonView')
     implementation project(':modules:common:log')
     implementation project(':modules:wei-editor')
+    implementation project(':modules:components:wei-skin')
     implementation deps.stetho.core
 
     debugCompile project(":modules:hugo:hugo-runtime")

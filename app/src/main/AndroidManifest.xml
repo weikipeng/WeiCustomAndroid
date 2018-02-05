@@ -23,6 +23,7 @@
 
         <activity android:name=".miui.MIUIActivity1"/>
         <activity android:name=".miui.MIUIActivity2"/>
+        <activity android:name=".shadow.TestShadowActivity"/>
         <activity android:name=".editor.TestEditorActivity"/>
         <activity android:name=".recyclerview.TestRecyclerViewActivity"/>
         <activity android:name=".recyclerview.TestCustomRecyclerViewActivity"/>

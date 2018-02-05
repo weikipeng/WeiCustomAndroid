@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jzb.android.widget.JzbRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="154dp"
+    android:layout_height="184dp"
+    android:clickable="true"
+    android:foreground="@drawable/click_feedback_ripple_transparent_corner"
+    app:cornerRadius="8dp"
+    app:isShadowGradient="true"
+    app:shadowColor="#F2F2F2"
+    app:shadowSize="2.5dp">
+
+    <!--新标记-->
+    <TextView
+        android:id="@+id/newFlag"
+        android:layout_width="31dp"
+        android:layout_height="19dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="2.5dp"
+        android:layout_marginTop="10dp"
+
+        android:gravity="start|center_vertical"
+        android:paddingLeft="8dp"
+        android:text="新"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"/>
+
+    <!--android:background="@drawable/shape_rectangle_master_hand"-->
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+    <!--tools:src="@drawable/avatar_anonymous_1"-->
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/TextView.T5.C3"
+        android:layout_below="@+id/avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:text="卢菲菲老师"/>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextView.T3.C4"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="告别"/>
+
+
+    <!--按钮 订购-->
+    <TextView
+        android:id="@+id/buttonAction"
+        style="@style/TextView.T5.C2"
+        android:layout_width="53dp"
+        android:layout_height="21dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="11dp"
+
+        android:gravity="center"
+        android:text="订购"/>
+    <!--android:text="@string/button_order"-->
+    <!--android:background="@drawable/selector_button_subscribe_classroom"-->
+
+    <!--XXX人参与-->
+    <TextView
+        android:id="@+id/summary"
+        style="@style/TextView.T6.C7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16.5dp"
+        android:layout_marginLeft="10dp"
+        tools:text="18人参与"/>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/View.Divider"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="43dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="12dp"
+        />
+    <!--android:background="@drawable/shape_line_classroom"-->
+
+</com.jzb.android.widget.JzbRelativeLayout>

@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import com.jzb.android.widget.common.JzbShapeComponent;
 import com.jzb.android.widget.common.JzbViewFocusManager;
 import com.jzb.android.widget.common.R;
-import com.jzb.common.LogTrackTool;
 
 /**
  * Created by wikipeng on 2017/8/10.

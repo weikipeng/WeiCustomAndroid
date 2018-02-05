@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- View的样式 -->
+    <style name="View"></style>
+
+    <!-- 分割线 横线-->
+    <style name="View.Divider">
+        <item name="android:id">@id/divider</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+    <!-- 分割线 竖线-->
+    <style name="View.Divider.Vertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <!--按钮-->
     <style name="JzbButton" parent="TextView">
         <item name="android:gravity">center</item>

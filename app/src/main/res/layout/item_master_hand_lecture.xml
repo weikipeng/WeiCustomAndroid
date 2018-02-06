@@ -8,9 +8,10 @@
     android:clickable="true"
     android:foreground="@drawable/click_feedback_ripple_transparent_corner"
     app:cornerRadius="8dp"
-    app:isShadowGradient="true"
+    app:shadowRadius="8dp"
     app:shadowColor="#F2F2F2"
-    app:shadowSize="2.5dp">
+    app:shadowMargin="2.5dp">
+    <!--app:backgroundColor="#00FF00"-->
 
     <!--新标记-->
     <TextView

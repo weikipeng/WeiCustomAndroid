@@ -1,71 +1,67 @@
 package com.jzb.android.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.widget.RelativeLayout;
 
-import com.jzb.android.widget.common.JzbShapeComponent;
-import com.jzb.android.widget.common.JzbViewFocusManager;
 import com.jzb.android.widget.common.R;
+import com.jzb.android.widget.shadow.ShapeUtils;
 
 /**
  * Created by wikipeng on 2017/8/10.
  */
 public class JzbRelativeLayout extends RelativeLayout {
-    protected Paint    mPaint;
-    protected Drawable mForegroundSelector;
+    private int DEFAULT_CHILD_GRAVITY = Gravity.TOP | Gravity.START;
 
-    /**
-     * 圆角角度
-     */
-    protected float mCornerRadius;
+    public static final int SIZE_UNSET   = -1;
+    public static final int SIZE_DEFAULT = 0;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 阴影
-    ///////////////////////////////////////////////////////////////////////////
-    protected Rect    mShadowRect;
-    protected RectF   mShadowRectF;
+    protected Drawable foregroundDraw;
+
+    private boolean foregroundDrawBoundsChanged = false;
+    private boolean foregroundDrawInPadding     = true;
+    private int     foregroundDrawGravity       = Gravity.FILL;
+    private   Rect selfBounds;
+    private   Rect overlayBounds;
+    protected int  foregroundColor;
+
     /**
      * 阴影颜色
      */
-    @ColorInt
-    protected int     mShadowColor;
-    /**
-     * 阴影大小
-     */
-    protected int     mShadowSize;
-    /**
-     * 阴影是否渐变
-     */
-    protected boolean isShadowGradient;
+    protected int   shadowColor;
+    protected float shadowRadius;
+    protected float shadowDx;
+    protected float shadowDy;
 
-    protected JzbViewFocusManager mJzbViewFocusManager;
+    //-
+    protected Paint bgPaint;
+    protected int   backgroundClr;
 
-    //    protected GradientDrawable mShadowLayers[];
-    //    protected LayerDrawable    mShadowLayerDrawable;
+    protected int shadowMarginLeft;
+    protected int shadowMarginTop;
+    protected int shadowMarginRight;
+    protected int shadowMarginBottom;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 6.8.4
-    ///////////////////////////////////////////////////////////////////////////
-    protected JzbShapeComponent jzbShapeComponent;
+    //--
+    protected float cornerRadiusTL;
+    protected float cornerRadiusTR;
+    protected float cornerRadiusBR;
+    protected float cornerRadiusBL;
 
     public JzbRelativeLayout(Context context) {
         this(context, null);
@@ -80,232 +76,189 @@ public class JzbRelativeLayout extends RelativeLayout {
         init(context, attrs);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        jzbShapeComponent = new JzbShapeComponent(context, attrs, this);
-
-        TypedArray typedArray       = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.foreground});
-        TypedArray shadowTypedArray = context.obtainStyledAttributes(attrs, R.styleable.JzbView);
-
-        mForegroundSelector = typedArray.getDrawable(0);
-
-        mShadowColor = shadowTypedArray.getColor(R.styleable.JzbView_shadowColor, Color.TRANSPARENT);
-        mShadowSize = shadowTypedArray.getDimensionPixelSize(R.styleable.JzbView_shadowSize, 0);
-        isShadowGradient = shadowTypedArray.getBoolean(R.styleable.JzbView_isShadowGradient, false);
-        mCornerRadius = shadowTypedArray.getDimensionPixelSize(R.styleable.JzbView_cornerRadius, 0);
-        mJzbViewFocusManager = new JzbViewFocusManager(context, attrs);
-
-        ///////////////////////////////////////////////////////////////////////////
-        // 前景色角度
-        ///////////////////////////////////////////////////////////////////////////
-        updateForeGroundDrawable();
-
-        ///////////////////////////////////////////////////////////////////////////
-        //
-        ///////////////////////////////////////////////////////////////////////////
-
-        shadowTypedArray.recycle();
-        typedArray.recycle();
-
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        ///////////////////////////////////////////////////////////////////////////
-        // 阴影
-        ///////////////////////////////////////////////////////////////////////////
-
-        if (mShadowSize > 0) {
-            mShadowRect = new Rect();
-            mShadowRectF = new RectF();
-        }
-    }
-
-    /**
-     * 更新前景色配置
-     */
-    protected void updateForeGroundDrawable() {
-        //set a callback, or the selector won't be animated
-        if (mForegroundSelector != null) {
-            mForegroundSelector.setCallback(this);
-            //LogTrackTool.getInstance().t("jzbFocus debug mForegroundSelector class is " + mForegroundSelector);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                    && mForegroundSelector instanceof RippleDrawable) {
-                RippleDrawable rippleDrawable = (RippleDrawable) mForegroundSelector;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    rippleDrawable.setRadius((int) mCornerRadius);
-                } else {
-                    int      numberOfLayers      = rippleDrawable.getNumberOfLayers();
-                    Drawable tRippleDrawableItem = null;
-                    for (int i = 0; i < numberOfLayers; i++) {
-                        tRippleDrawableItem = rippleDrawable.getDrawable(i);
-                        //LogTrackTool.getInstance().t("jzbFocus debug rippleDrawableCurrent class is " + tRippleDrawableItem);
-                        if (tRippleDrawableItem instanceof ColorDrawable) {
-                            ColorDrawable colorDrawable = (ColorDrawable) tRippleDrawableItem;
-                            //                            GradientDrawable gradientDrawable = new GradientDrawable();
-                            //                            gradientDrawable.setColor(colorDrawable.getColor());
-                            //                            rippleDrawable.setd(i,gradientDrawable);
-                        } else if (tRippleDrawableItem instanceof GradientDrawable) {
-                            GradientDrawable gradientDrawable = (GradientDrawable) tRippleDrawableItem;
-                            gradientDrawable.setCornerRadius(mCornerRadius);
-                        }
-                    }
-                }
-            } else if (mForegroundSelector instanceof StateListDrawable) {
-                StateListDrawable stateListDrawable = (StateListDrawable) mForegroundSelector;
-                DrawableContainer.DrawableContainerState drawableContainerState
-                        = (DrawableContainer.DrawableContainerState) stateListDrawable.getConstantState();
-
-                if (drawableContainerState != null) {
-                    Drawable[] children = drawableContainerState.getChildren();
-                    if (children != null && children.length > 0) {
-
-                        for (Drawable child : children) {
-                            ////DevLogTool.getInstance(getContext()).saveLog("  child===>" + child);
-                            if (child instanceof LayerDrawable) {
-                                ////DevLogTool.getInstance(getContext()).saveLog("  GradientDrawable===>1");
-                                LayerDrawable    selectedItem     = (LayerDrawable) child;
-                                GradientDrawable selectedDrawable = (GradientDrawable) selectedItem.getDrawable(0);
-                                selectedDrawable.setCornerRadius(mCornerRadius);
-                                selectedDrawable.setAlpha(20);
-                            } else if (child instanceof GradientDrawable) {
-                                ////DevLogTool.getInstance(getContext()).saveLog("  GradientDrawable===>2");
-                                GradientDrawable gradientDrawable = (GradientDrawable) child;
-                                gradientDrawable.setCornerRadius(mCornerRadius);
-                                gradientDrawable.setAlpha(20);
-                            }
-                        }
-
-                        //                        LayerDrawable    selectedItem     = (LayerDrawable) children[0];
-                        //                        GradientDrawable selectedDrawable = (GradientDrawable) selectedItem.getDrawable(0);
-                        //                        selectedDrawable.setCornerRadius(mCornerRadius);
-                        //                        selectedDrawable.setAlpha(200);
-                        //
-                        //                        if (children.length > 1) {
-                        //                            LayerDrawable    unselectedItem     = (LayerDrawable) children[1];
-                        //                            GradientDrawable unselectedDrawable = (GradientDrawable) unselectedItem.getDrawable(0);
-                        //                            unselectedDrawable.setCornerRadius(mCornerRadius);
-                        //                        }
-                    }
-                }
-
-                //                StateListDrawable      gradientDrawable       = (StateListDrawable) inflatedView.getBackground();
-                //                DrawableContainerState drawableContainerState = (DrawableContainerState) gradientDrawable.getConstantState();
-                //                Drawable[]             children               = drawableContainerState.getChildren();
-                //                LayerDrawable          selectedItem           = (LayerDrawable) children[0];
-                //                LayerDrawable          unselectedItem         = (LayerDrawable) children[1];
-                //                GradientDrawable       selectedDrawable       = (GradientDrawable) selectedItem.getDrawable(0);
-                //                GradientDrawable       unselectedDrawable     = (GradientDrawable) unselectedItem.getDrawable(0);
-                //                selectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);
-                //                unselectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);
-            } else if (mForegroundSelector instanceof GradientDrawable) {
-                GradientDrawable gradientDrawable = (GradientDrawable) mForegroundSelector;
-                gradientDrawable.setCornerRadius(mCornerRadius);
-            }
-        }
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public JzbRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
 
+    private void init(Context context, AttributeSet attrs) {
+        if (context == null) {
+            return;
+        }
+
+        selfBounds = new Rect();
+        overlayBounds = new Rect();
+
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ShadowView, 0, 0);
+
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        ///////////////////////////////////////////////////////////////////////////
+        shadowColor = a.getColor(R.styleable.ShadowView_shadowColor
+                , ContextCompat.getColor(context, R.color.shadow_view_default_shadow_color));
+        foregroundColor = a.getColor(R.styleable.ShadowView_foregroundColor
+                , ContextCompat.getColor(context, R.color.shadow_view_foreground_color_dark));
+        backgroundClr = a.getColor(R.styleable.ShadowView_backgroundColor, Color.WHITE);
+        shadowDx = a.getFloat(R.styleable.ShadowView_shadowDx, 0f);
+        shadowDy = a.getFloat(R.styleable.ShadowView_shadowDy, 1f);
+        shadowRadius = a.getDimensionPixelSize(R.styleable.ShadowView_shadowRadius, SIZE_DEFAULT);
+        Drawable d = a.getDrawable(R.styleable.ShadowView_android_foreground);
+        if (d != null) {
+            setForeground(d);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        ///////////////////////////////////////////////////////////////////////////
+        int shadowMargin = a.getDimensionPixelSize(R.styleable.ShadowView_shadowMargin, SIZE_UNSET);
+        if (shadowMargin >= 0) {
+            shadowMarginTop = shadowMargin;
+            shadowMarginLeft = shadowMargin;
+            shadowMarginRight = shadowMargin;
+            shadowMarginBottom = shadowMargin;
+        } else {
+            shadowMarginTop = a.getDimensionPixelSize(R.styleable.ShadowView_shadowMarginTop, SIZE_DEFAULT);
+            shadowMarginLeft = a.getDimensionPixelSize(R.styleable.ShadowView_shadowMarginLeft, SIZE_DEFAULT);
+            shadowMarginRight = a.getDimensionPixelSize(R.styleable.ShadowView_shadowMarginRight, SIZE_DEFAULT);
+            shadowMarginBottom = a.getDimensionPixelSize(R.styleable.ShadowView_shadowMarginBottom, SIZE_DEFAULT);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        ///////////////////////////////////////////////////////////////////////////
+        float cornerRadius = a.getDimensionPixelSize(R.styleable.ShadowView_cornerRadius, SIZE_UNSET);
+        if (cornerRadius >= 0) {
+            cornerRadiusTL = cornerRadius;
+            cornerRadiusTR = cornerRadius;
+            cornerRadiusBL = cornerRadius;
+            cornerRadiusBR = cornerRadius;
+        } else {
+            cornerRadiusTL = a.getDimensionPixelSize(R.styleable.ShadowView_cornerRadiusTL, SIZE_DEFAULT);
+            cornerRadiusTR = a.getDimensionPixelSize(R.styleable.ShadowView_cornerRadiusTR, SIZE_DEFAULT);
+            cornerRadiusBL = a.getDimensionPixelSize(R.styleable.ShadowView_cornerRadiusBL, SIZE_DEFAULT);
+            cornerRadiusBR = a.getDimensionPixelSize(R.styleable.ShadowView_cornerRadiusBR, SIZE_DEFAULT);
+        }
+        a.recycle();
+
+        ///////////////////////////////////////////////////////////////////////////
+        //
+        ///////////////////////////////////////////////////////////////////////////
+        bgPaint = new Paint();
+        bgPaint.setAntiAlias(true);
+        bgPaint.setStyle(Paint.Style.FILL);
+        bgPaint.setColor(backgroundClr);
+        ///////////////////////////////////////////////////////////////////////////
+        // 阴影
+        ///////////////////////////////////////////////////////////////////////////
+        setLayerType(LAYER_TYPE_SOFTWARE, null);
+        setWillNotDraw(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(null);
+        } else {
+            setBackgroundDrawable(null);
+        }
+        updatePaintShadow();
+    }
+
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (mForegroundSelector != null) {
-            mForegroundSelector.setBounds(mShadowSize, mShadowSize, w - mShadowSize, h - mShadowSize);
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (changed){
+            foregroundDrawBoundsChanged = changed;
         }
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (canvas == null) {
+            return;
+        }
+
+        int w = getMeasuredWidth();
+        int h = getMeasuredHeight();
+        Path path = ShapeUtils.INSTANCE.roundedRect(shadowMarginLeft, shadowMarginTop, (w - shadowMarginRight)
+                , (h - shadowMarginBottom)
+                , cornerRadiusTL
+                , cornerRadiusTR
+                , cornerRadiusBR
+                , cornerRadiusBL);
+        canvas.drawPath(path, bgPaint);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (canvas == null) {
+            return;
+        }
+
+        canvas.save();
+        int w = getMeasuredWidth();
+        int h = getMeasuredHeight();
+        Path path = ShapeUtils.INSTANCE.roundedRect(shadowMarginLeft, shadowMarginTop, (w - shadowMarginRight)
+                , (h - shadowMarginBottom)
+                , cornerRadiusTL
+                , cornerRadiusTR
+                , cornerRadiusBR
+                , cornerRadiusBL);
+        canvas.clipPath(path);
+        drawForeground(canvas);
+        canvas.restore();
+    }
+
+    protected void drawForeground(Canvas canvas) {
+        if (foregroundDraw == null) {
+            return;
+        }
+        if (foregroundDrawBoundsChanged) {
+            foregroundDrawBoundsChanged = false;
+            int w = getRight() - getLeft();
+            int h = getBottom() - getTop();
+            if (foregroundDrawInPadding) {
+                selfBounds.set(0, 0, w, h);
+            } else {
+                selfBounds.set(getPaddingLeft(), getPaddingTop(),
+                        w - getPaddingRight(), h - getPaddingBottom());
+            }
+            Gravity.apply(foregroundDrawGravity, foregroundDraw.getIntrinsicWidth(),
+                    foregroundDraw.getIntrinsicHeight(), selfBounds, overlayBounds);
+            foregroundDraw.setBounds(overlayBounds);
+        }
+        foregroundDraw.draw(canvas);
+    }
+
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        foregroundDrawBoundsChanged = true;
+    }
+
+    @Override
     protected boolean verifyDrawable(@NonNull Drawable who) {
-        return super.verifyDrawable(who) || (who == mForegroundSelector);
+        return super.verifyDrawable(who) || who == foregroundDraw;
     }
 
     @Override
     public void drawableHotspotChanged(float x, float y) {
         super.drawableHotspotChanged(x, y);
-        if (mForegroundSelector != null) {
+        if (foregroundDraw != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mForegroundSelector.setHotspot(x, y);
+                foregroundDraw.setHotspot(x, y);
             }
-        }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        //        if (isAutoClearFocus) {
-        //            switch (event.getAction()) {
-        //                case MotionEvent.ACTION_DOWN:
-        //                    mTouchDownX = event.getX();
-        //                    mTouchDownY = event.getY();
-        //                    break;
-        //                case MotionEvent.ACTION_MOVE:
-        //                    float currentX = event.getX();
-        //                    float currentY = event.getY();
-        //
-        //                    break;
-        //                case MotionEvent.ACTION_UP:
-        //                    mTouchDownX = 0;
-        //                    mTouchDownY = 0;
-        //                    break;
-        //                case MotionEvent.ACTION_CANCEL:
-        //                    mTouchDownX = 0;
-        //                    mTouchDownY = 0;
-        //                    break;
-        //            }
-        //            //            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        //            //                View focusView = ((Activity) getContext()).getCurrentFocus();
-        //            //                if (focusView instanceof EditText) {
-        //            //                    LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    000");
-        //            //                    Rect outRect = new Rect();
-        //            //                    focusView.getGlobalVisibleRect(outRect);
-        //            //                    if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-        //            //                        LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    111 ");
-        //            //                        focusView.clearFocus();
-        //            //                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //            //                        if (imm != null) {
-        //            //                            LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    222 ");
-        //            //                            imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-        //            //                        }
-        //            //                        ((EditText) focusView).setCursorVisible(false);
-        //            //                    }
-        //            //                }
-        //            //            }
-        //        }
-
-        if (mJzbViewFocusManager != null) {
-            mJzbViewFocusManager.dispatchTouchEvent(event);
-        }
-
-        return super.dispatchTouchEvent(event);
-    }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        //        Drawable background = getBackground();
-        //        background.setBounds();
-        ///////////////////////////////////////////////////////////////////////////
-        // 阴影
-        ///////////////////////////////////////////////////////////////////////////
-        drawShadow(canvas);
-        ///////////////////////////////////////////////////////////////////////////
-        // 阴影
-        ///////////////////////////////////////////////////////////////////////////
-
-        if (mForegroundSelector != null) {
-            mForegroundSelector.draw(canvas);
         }
     }
 
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
-        if (mForegroundSelector != null) {
-            ////DevLogTool.getInstance(getContext()).saveLog("  mForegroundSelector drawableStateChanged===>1");
-            mForegroundSelector.setState(getDrawableState());
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                updateForeGroundDrawable();
+        if (foregroundDraw != null) {
+            //            foregroundDraw?.takeIf { it.isStateful }?.let { it.state = drawableState }
+            if (foregroundDraw.isStateful()) {
+                foregroundDraw.setState(getDrawableState());
             }
         }
     }
@@ -313,46 +266,88 @@ public class JzbRelativeLayout extends RelativeLayout {
     @Override
     public void jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState();
-        if (mForegroundSelector != null) {
-            mForegroundSelector.jumpToCurrentState();
+        if (foregroundDraw != null) {
+            foregroundDraw.jumpToCurrentState();
         }
     }
 
-    protected void drawShadow(Canvas canvas) {
-        if (mShadowSize > 0) {
-            int         paintColor  = mPaint.getColor();
-            int         alpha       = mPaint.getAlpha();
-            float       strokeWidth = mPaint.getStrokeWidth();
-            Paint.Style paintStyle  = mPaint.getStyle();
 
-            //---
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setColor(mShadowColor);
-            mPaint.setStrokeWidth(1);
-
-            int alphaUnit = 255 / mShadowSize;
-
-            int width  = getWidth();
-            int height = getHeight();
-
-            mShadowRectF.set(0, 0, width, height);
-
-
-            for (int i = 0; i < mShadowSize; i++) {
-                mPaint.setAlpha(alphaUnit * (i + 1));
-                mShadowRectF.inset(1, 1);
-                if (mCornerRadius > 0) {
-                    canvas.drawRoundRect(mShadowRectF, mCornerRadius, mCornerRadius, mPaint);
-                } else {
-                    canvas.drawRect(mShadowRectF, mPaint);
-                }
-            }
-
-            //---
-            mPaint.setColor(paintColor);
-            mPaint.setStrokeWidth(strokeWidth);
-            mPaint.setStyle(paintStyle);
-            mPaint.setAlpha(alpha);
+    @Override
+    public void setForeground(Drawable drawable) {
+        if (foregroundDraw != null) {
+            foregroundDraw.setCallback(null);
+            unscheduleDrawable(foregroundDraw);
         }
+
+        foregroundDraw = drawable;
+
+        updateForegroundColor();
+
+        if (drawable != null) {
+            setWillNotDraw(false);
+            drawable.setCallback(this);
+            if (drawable.isStateful()) {
+                drawable.setState(getDrawableState());
+            }
+            if (foregroundDrawGravity == Gravity.FILL) {
+                Rect padding = new Rect();
+                drawable.getPadding(padding);
+            }
+        }
+        requestLayout();
+        invalidate();
+    }
+
+    @Override
+    public Drawable getForeground() {
+        return foregroundDraw;
+    }
+
+    private void updateForegroundColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (foregroundDraw instanceof RippleDrawable) {
+                ((RippleDrawable) foregroundDraw).setColor(ColorStateList.valueOf(foregroundColor));
+            }
+        } else {
+            foregroundDraw.setColorFilter(foregroundColor, PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+    @Override
+    public void setForegroundGravity(int foregroundGravity) {
+        if (foregroundDrawGravity != foregroundGravity) {
+            if ((foregroundGravity & Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK) == 0) {
+                foregroundGravity = foregroundGravity | Gravity.START;
+            }
+            if ((foregroundGravity & Gravity.VERTICAL_GRAVITY_MASK) == 0) {
+                foregroundGravity = foregroundGravity | Gravity.TOP;
+            }
+            foregroundDrawGravity = foregroundGravity;
+            if (foregroundDrawGravity == Gravity.FILL && foregroundDraw != null) {
+                Rect padding = new Rect();
+                foregroundDraw.getPadding(padding);
+            }
+            requestLayout();
+        }
+    }
+
+    @Override
+    public int getForegroundGravity() {
+        return foregroundDrawGravity;
+    }
+
+    public void updatePaintShadow(float radius, float dx, float dy, int shadowColor) {
+        bgPaint.setShadowLayer(radius, dx, dy, shadowColor);
+        invalidate();
+    }
+
+    private void updatePaintShadow() {
+        updatePaintShadow(shadowRadius, shadowDx, shadowDy, shadowColor);
+    }
+
+
+    public void setShadowColor(int color) {
+        this.shadowColor = color;
+        updatePaintShadow();
     }
 }

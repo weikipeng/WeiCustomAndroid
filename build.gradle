@@ -21,7 +21,7 @@ buildscript {
 //        classpath 'com.jzb.android:hugo-plugin:1.0.0'
 
 
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -69,12 +69,12 @@ task clean(type: Delete) {
 // 在一个地方定义所有工具的版本号
 ext.versions = [
         // Sdk and tools
-        'compileSdk'               : 26,
-        'buildTools'               : '26.0.3',
+        'compileSdk'               : 27,
+        'buildTools'               : '27.0.3',
         'minSdk'                   : 14,
-        'targetSdk'                : 26,
+        'targetSdk'                : 27,
 
-        'supportLibrary'           : '26.1.0',
+        'supportLibrary'           : '27.1.1',
         'supportTestLibraryVersion': '0.5',
         'constraint'               : '1.0.2',
         'dagger'                   : '1.2.5',

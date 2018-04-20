@@ -48,7 +48,7 @@ dependencies {
     implementation project(':modules:components:wei-skin')
     implementation deps.stetho.core
 
-    debugCompile project(":modules:hugo:hugo-runtime")
-    debugCompile 'org.aspectj:aspectjrt:1.8.6'
-    compile project(":modules:hugo:hugo-annotations")
+    debugImplementation project(":modules:hugo:hugo-runtime")
+    debugImplementation 'org.aspectj:aspectjrt:1.8.6'
+    implementation project(":modules:hugo:hugo-annotations")
 }

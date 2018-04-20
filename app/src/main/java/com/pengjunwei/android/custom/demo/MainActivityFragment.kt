@@ -21,9 +21,9 @@ class MainActivityFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        buttonTestMiuiLifeCycle = view?.findViewById(R.id.btnTestMiuiLifeCycle)
+        buttonTestMiuiLifeCycle = view.findViewById(R.id.btnTestMiuiLifeCycle)
         buttonTestMiuiLifeCycle?.setOnClickListener(View.OnClickListener {
 //            val miuiIntent = Intent(context,MIUIActivity1::class.java)
 //            val miuiIntent = Intent(context,TestEditorActivity::class.java)

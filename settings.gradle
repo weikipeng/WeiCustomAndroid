@@ -10,3 +10,4 @@ include ':modules:components:wei-Rx'
 include ':modules:components:wei-skin'
 
 include ':modules:widget:CommonView'
+include ':modules:hook:tb_dexposed:dexposed'

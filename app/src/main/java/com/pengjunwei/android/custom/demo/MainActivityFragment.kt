@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.pengjunwei.android.custom.demo.contextmenu.ContextMenuActivity
 import com.pengjunwei.android.custom.demo.recyclerview.TestCustomRecyclerViewActivity
 import com.pengjunwei.android.custom.demo.shadow.TestShadowActivity
 
@@ -30,7 +31,8 @@ class MainActivityFragment : Fragment() {
         buttonTestMiuiLifeCycle?.setOnClickListener(View.OnClickListener {
 //            val miuiIntent = Intent(context,MIUIActivity1::class.java)
 //            val miuiIntent = Intent(context,TestEditorActivity::class.java)
-            val miuiIntent = Intent(context, TestShadowActivity::class.java)
+//            val miuiIntent = Intent(context, TestShadowActivity::class.java)
+            val miuiIntent = Intent(context, ContextMenuActivity::class.java)
             startActivity(miuiIntent)
         })
 

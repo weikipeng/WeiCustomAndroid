@@ -27,6 +27,7 @@
         <activity android:name=".editor.TestEditorActivity"/>
         <activity android:name=".recyclerview.TestRecyclerViewActivity"/>
         <activity android:name=".recyclerview.TestCustomRecyclerViewActivity"/>
+        <activity android:name=".contextmenu.ContextMenuActivity" />
     </application>
 
 </manifest>

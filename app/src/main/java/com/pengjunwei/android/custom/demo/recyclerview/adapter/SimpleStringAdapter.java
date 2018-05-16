@@ -30,6 +30,12 @@ public class SimpleStringAdapter extends RecyclerView.Adapter<SimpleStringAdapte
     private int               mBackground;
     private ArrayList<String> mValues;
 
+    public void remove(int position) {
+        if (position >= 0 && mValues != null && mValues.size() > position) {
+            mValues.remove(position);
+        }
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public String   mBoundString;
         public TextView mTextView;

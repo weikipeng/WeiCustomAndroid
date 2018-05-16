@@ -28,6 +28,7 @@
         <activity android:name=".recyclerview.TestRecyclerViewActivity"/>
         <activity android:name=".recyclerview.TestCustomRecyclerViewActivity"/>
         <activity android:name=".contextmenu.ContextMenuActivity" />
+        <activity android:name=".network.okhttp.TestOkHttpActivity" />
     </application>
 
 </manifest>

@@ -47,6 +47,10 @@ dependencies {
     implementation project(':modules:wei-editor')
     implementation project(':modules:components:wei-skin')
     implementation deps.stetho.core
+    implementation deps.stetho.okhttp
+
+    implementation deps.retrofit.core
+    implementation deps.okhttp.core
 
     debugImplementation project(":modules:hugo:hugo-runtime")
     debugImplementation 'org.aspectj:aspectjrt:1.8.6'

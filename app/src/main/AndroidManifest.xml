@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pengjunwei.android.custom.demo">
+    package="com.pengjunwei.android.custom.demo">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MainApplication"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -15,18 +16,18 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".miui.MIUIActivity1"/>
-        <activity android:name=".miui.MIUIActivity2"/>
-        <activity android:name=".shadow.TestShadowActivity"/>
-        <activity android:name=".editor.TestEditorActivity"/>
-        <activity android:name=".recyclerview.TestRecyclerViewActivity"/>
-        <activity android:name=".recyclerview.TestCustomRecyclerViewActivity"/>
+        <activity android:name=".miui.MIUIActivity1" />
+        <activity android:name=".miui.MIUIActivity2" />
+        <activity android:name=".shadow.TestShadowActivity" />
+        <activity android:name=".editor.TestEditorActivity" />
+        <activity android:name=".recyclerview.TestRecyclerViewActivity" />
+        <activity android:name=".recyclerview.TestCustomRecyclerViewActivity" />
         <activity android:name=".contextmenu.ContextMenuActivity" />
         <activity android:name=".network.okhttp.TestOkHttpActivity" />
     </application>

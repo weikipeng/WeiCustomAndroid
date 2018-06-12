@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <TextView
@@ -16,5 +16,25 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"/>
 
+    <Button
+        android:id="@+id/btnAction100"
+        android:text="100Mb"
+        app:layout_constraintTop_toBottomOf="@+id/btnAction"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"/>
+
+    <Button
+        android:id="@+id/btnAction50"
+        android:text="50Mb"
+        app:layout_constraintTop_toBottomOf="@+id/btnAction100"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"/>
+
+    <Button
+        android:id="@+id/btnAction20"
+        android:text="20Mb"
+        app:layout_constraintTop_toBottomOf="@+id/btnAction50"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"/>
 
 </android.support.constraint.ConstraintLayout>

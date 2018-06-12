@@ -32,6 +32,45 @@ android {
             path "CMakeLists.txt"
         }
     }
+
+    // Specifies a flavor dimension.
+    flavorDimensions "color"
+
+    productFlavors {
+        free {
+            applicationIdSuffix ".free"
+            // Assigns this product flavor to the 'color' flavor dimension.
+            // This step is optional if you are using only one dimension.
+            dimension "color"
+        }
+        pro {
+            applicationIdSuffix ".pro"
+            // Assigns this product flavor to the 'color' flavor dimension.
+            // This step is optional if you are using only one dimension.
+            dimension "color"
+        }
+
+        p001{
+            applicationIdSuffix ".p001"
+            // Assigns this product flavor to the 'color' flavor dimension.
+            // This step is optional if you are using only one dimension.
+            dimension "color"
+        }
+
+        p002{
+            applicationIdSuffix ".p002"
+            // Assigns this product flavor to the 'color' flavor dimension.
+            // This step is optional if you are using only one dimension.
+            dimension "color"
+        }
+
+        p127{
+            applicationIdSuffix ".p127"
+            // Assigns this product flavor to the 'color' flavor dimension.
+            // This step is optional if you are using only one dimension.
+            dimension "color"
+        }
+    }
 }
 
 dependencies {

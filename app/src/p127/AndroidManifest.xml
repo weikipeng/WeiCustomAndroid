@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pengjunwei.android.custom.demo">
+
+    <application>
+
+        <service
+            android:name=".memory.MemoryP127100Service"
+            android:exported="true"
+            android:process=":memoryP127100Service">
+            <intent-filter>
+                <action android:name="com.pengjunwei.android.custom.demo.p127.eat_memory" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

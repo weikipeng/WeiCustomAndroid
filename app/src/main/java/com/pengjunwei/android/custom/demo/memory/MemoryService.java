@@ -23,7 +23,7 @@ public abstract class MemoryService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogTool.getInstance().saveLog(getClass().getSimpleName(),"onStartCommand ===========");
+        LogTool.getInstance().s(getClass().getSimpleName(),"onStartCommand ===========");
         if (intent != null) {
             String action = intent.getAction();
             if (ACTION_EAT_MEMORY.equals(action)) {
@@ -39,6 +39,6 @@ public abstract class MemoryService extends Service {
     protected void eatMemory(int memorySize) {
         byte[] bytes = new byte[memorySize];
         memoryList.add(bytes);
-        LogTool.getInstance().saveLog("eat memory===>", MemoryTool.formatMemSize(memorySize));
+        LogTool.getInstance().s("eat memory===>", MemoryTool.formatMemSize(memorySize));
     }
 }

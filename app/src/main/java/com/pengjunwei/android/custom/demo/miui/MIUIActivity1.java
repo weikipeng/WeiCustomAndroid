@@ -52,7 +52,7 @@ public class MIUIActivity1 extends BaseMIUIActivity {
             @Override
             public void onClick(View v) {
 //                long memFreeSize = MemoryTool.getMemFreeSize();
-//                LogTool.getInstance().saveLog("可用内存大小==>",memFreeSize);
+//                LogTool.getInstance().s("可用内存大小==>",memFreeSize);
 ////                NativeTool nativeTool = new NativeTool();
 ////                nativeTool.eatMemory(memFreeSize * 1024);
 //                MemoryTool.eat100(mContext);
@@ -60,7 +60,7 @@ public class MIUIActivity1 extends BaseMIUIActivity {
                 testList.add(bytes);
                 Intent intent = new Intent();
                 String packageName = getPackageName();
-                LogTool.getInstance().saveLog("packageName==>" + packageName);
+                LogTool.getInstance().s("packageName==>" + packageName);
                 intent.setAction(packageName + "." + ACTION_EAT_MEMORY);
                 startService(intent);
             }
@@ -70,7 +70,7 @@ public class MIUIActivity1 extends BaseMIUIActivity {
             @Override
             public void onClick(View v) {
 //                long memFreeSize = MemoryTool.getMemFreeSize();
-//                LogTool.getInstance().saveLog("可用内存大小==>",memFreeSize);
+//                LogTool.getInstance().s("可用内存大小==>",memFreeSize);
 //                MemoryTool.eat50(mContext);
 
                 byte[] bytes = new byte[50 * 1024 * 1024];
@@ -86,7 +86,7 @@ public class MIUIActivity1 extends BaseMIUIActivity {
             @Override
             public void onClick(View v) {
 //                long memFreeSize = MemoryTool.getMemFreeSize();
-//                LogTool.getInstance().saveLog("可用内存大小==>",memFreeSize);
+//                LogTool.getInstance().s("可用内存大小==>",memFreeSize);
 //                MemoryTool.eat20(mContext);
                 byte[] bytes = new byte[20 * 1024 * 1024];
                 testList.add(bytes);
@@ -100,8 +100,8 @@ public class MIUIActivity1 extends BaseMIUIActivity {
 
     private void showMemInfo() {
         MemoryTool.displayBriefMemory(this);
-        LogTool.getInstance().saveLog("内存大小==>", MemoryTool.getTotalRAM());
-        LogTool.getInstance().saveLog("可用内存大小==>", MemoryTool.getMemFreeSize());
+        LogTool.getInstance().s("内存大小==>", MemoryTool.getTotalRAM());
+        LogTool.getInstance().s("可用内存大小==>", MemoryTool.getMemFreeSize());
 
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
@@ -115,8 +115,8 @@ public class MIUIActivity1 extends BaseMIUIActivity {
         }
         long availMem = memoryInfo.availMem;
 
-        LogTool.getInstance().saveLog("totalMem==>", totalMem, "  availMem==>", availMem);
-        LogTool.getInstance().saveLog("totalMem==>", MemoryTool.formatMemSize(totalMem)
+        LogTool.getInstance().s("totalMem==>", totalMem, "  availMem==>", availMem);
+        LogTool.getInstance().s("totalMem==>", MemoryTool.formatMemSize(totalMem)
                 , "  availMem==>", MemoryTool.formatMemSize(availMem));
     }
 

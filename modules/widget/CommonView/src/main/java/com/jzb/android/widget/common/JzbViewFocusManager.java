@@ -71,15 +71,15 @@ public class JzbViewFocusManager {
     public boolean clearCurrentFocus() {
         //        View focusView = ((Activity) mContext).getCurrentFocus();
         //        if (focusView instanceof EditText) {
-        //            LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    000");
+        //            LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    000");
         //            Rect outRect = new Rect();
         //            focusView.getGlobalVisibleRect(outRect);
         //            if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-        //                LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    111 ");
+        //                LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    111 ");
         //                focusView.clearFocus();
         //                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         //                if (imm != null) {
-        //                    LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    222 ");
+        //                    LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    222 ");
         //                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
         //                }
         //                ((EditText) focusView).setCursorVisible(false);
@@ -96,15 +96,15 @@ public class JzbViewFocusManager {
         }
         View focusView = ((Activity) mContext).getCurrentFocus();
         if (focusView instanceof EditText) {
-//            LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    000");
+//            LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    000");
             Rect outRect = new Rect();
             focusView.getGlobalVisibleRect(outRect);
             if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
-//                LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    111 ");
+//                LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    111 ");
                 focusView.clearFocus();
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-//                    LogTool.getInstance().saveLog(focusView.toString(), "           清除 焦点 =====>    222 ");
+//                    LogTool.getInstance().s(focusView.toString(), "           清除 焦点 =====>    222 ");
                     imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
                 }
                 ((EditText) focusView).setCursorVisible(false);

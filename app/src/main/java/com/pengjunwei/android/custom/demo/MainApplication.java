@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.stetho.Stetho;
+import com.jzb.common.ILogDelegate;
 import com.jzb.common.LogTool;
 
 
@@ -15,10 +16,15 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Stetho.initializeWithDefaults(this);
-        LogTool.getInstance().setDelegate(new LogTool.Delegate() {
+        LogTool.getInstance().setDelegate(new ILogDelegate(){
             @Override
             public void executeLog(String tag, String message) {
                 Log.e(tag, message);
+            }
+
+            @Override
+            public String getProcessName() {
+                return "";
             }
         });
     }

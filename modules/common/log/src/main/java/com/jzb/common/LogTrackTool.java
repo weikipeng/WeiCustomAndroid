@@ -2,11 +2,15 @@ package com.jzb.common;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.jzb.common.LogTool.TAG;
 
 /**
  * Created by wikipeng on 2017/9/22.
@@ -14,23 +18,46 @@ import java.util.Locale;
 public class LogTrackTool {
     public static final String PATTERN_DETAIL = "yyyy-MM-dd HH:mm:ss";
     private static LogTrackTool sDevLogTool;
-    private        File         sLogFile;
+    private File sLogFile;
     private boolean isPrintPath = true;
-    private boolean  isPrintLog;
-    private Delegate mDelegate;
+    private boolean isPrintLog;
+    private ILogTrackDelegate mDelegate;
 
     private String lastClassName;
 
-    public static LogTrackTool getInstance() {
-        if (sDevLogTool == null) {
-            synchronized (LogTrackTool.class) {
-                if (sDevLogTool == null) {
-                    sDevLogTool = new LogTrackTool();
+    public static void saveThrowable(Throwable throwable) {
+        LogTrackTool logTrackTool = newInstance();
+        logTrackTool.setLogFile("logWatch");
+        logTrackTool.t("======清除上报日志======");
+
+        if (throwable != null) {
+            try {
+                File defaultLogFile = LogTrackTool.getInstance().getDefaultLogFile();
+                if (defaultLogFile != null) {
+                    FileWriter fileWriter = new FileWriter(defaultLogFile, true);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter, 4096);
+                    PrintWriter printWriter = new PrintWriter(bufferedWriter);
+
+                    //新起一行
+                    printWriter.println();
+                    printWriter.println("=======崩溃信息pjwFocus=======");
+
+                    throwable.printStackTrace(printWriter);
+
+                    fileWriter.flush();
+                    bufferedWriter.flush();
+                    printWriter.flush();
+
+                    printWriter.close();
+                    bufferedWriter.close();
+                    fileWriter.close();
                 }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
-        return sDevLogTool;
     }
 
     public static LogTrackTool newInstance() {
@@ -41,21 +68,12 @@ public class LogTrackTool {
         return result;
     }
 
-    public File getDefaultLogFile() {
+    public LogTrackTool setLogFile(String tempFileName) {
         if (mDelegate != null) {
-            return mDelegate.getDefaultLogFile();
+            this.sLogFile = mDelegate.generateLogFile(tempFileName);
         }
-        return null;
-    }
 
-    public synchronized void clearLog() {
-        if (mDelegate == null) {
-            return;
-        }
-        File defaultLogFile = mDelegate.getDefaultLogFile();
-        if (defaultLogFile != null) {
-            defaultLogFile.delete();
-        }
+        return this;
     }
 
     /**
@@ -72,59 +90,40 @@ public class LogTrackTool {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
-        writeToFile(sLogFile, stackTrace, log, messages);
+        printAndWriteToFile(sLogFile, stackTrace, log, messages);
+    }
+
+    public File getDefaultLogFile() {
+        if (mDelegate != null) {
+            return mDelegate.getDefaultLogFile();
+        }
+        return null;
+    }
+
+    public static LogTrackTool getInstance() {
+        synchronized (LogTrackTool.class) {
+            if (sDevLogTool == null) {
+                sDevLogTool = new LogTrackTool();
+            }
+        }
+
+        return sDevLogTool;
+    }
+
+    /**
+     * 打印并保存用户日志
+     */
+    private synchronized void printAndWriteToFile(File logFile, StackTraceElement[] stackTrace, String log, Object... messages) {
+        LogInfo logInfo = LogTool.printLog(mDelegate, isPrintLog, stackTrace, log, messages);
+        if (logInfo != null) {
+            writeToFile(logFile, logInfo.className, logInfo.callStackMessage, logInfo.userLogMessage);
+        }
     }
 
     /**
      * 跟踪用户操作
      */
-    private synchronized void writeToFile(File logFile, StackTraceElement[] stackTrace, String log, Object... messages) {
-        if (stackTrace == null) {
-            return;
-        }
-
-        String fullClassName = stackTrace[3].getClassName();
-        String className     = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-        int    lineNumber    = stackTrace[3].getLineNumber();
-
-        String codeMessage = "";
-        if (stackTrace.length > 5) {
-            String supClassName = stackTrace[4].getClassName();
-            supClassName = supClassName.substring(supClassName.lastIndexOf(".") + 1);
-
-            int    supLinenumber = stackTrace[4].getLineNumber();
-            String methodName    = stackTrace[4].getMethodName();
-
-            codeMessage += supClassName + "." + methodName + ":" + supLinenumber + "==>";
-        }
-
-        codeMessage += "(" + className + ":" + lineNumber + "@" + Thread.currentThread().getName() + ") : ";
-
-        if (messages != null && messages.length > 0) {
-            StringBuilder logBuilder = new StringBuilder(log);
-            for (Object message : messages) {
-                logBuilder.append(message);
-            }
-            log = logBuilder.toString();
-        }
-
-        if (isPrintLog && mDelegate != null) {
-            String tag = "jzbdev";
-
-            StringBuilder printLogStringBuilder = new StringBuilder();
-            printLogStringBuilder.append("jzbFocus debug ");
-            if (isValidString(className)) {
-                printLogStringBuilder.append(className);
-            }
-            printLogStringBuilder.append("[");
-            printLogStringBuilder.append(codeMessage);
-            printLogStringBuilder.append("]");
-
-            String printLogText = String.format("%-222s %s", log, printLogStringBuilder);
-
-            mDelegate.executeLog(tag, printLogText);
-        }
-
+    private synchronized void writeToFile(File logFile, String className, String codeMessage, String log) {
         ///////////////////////////////////////////////////////////////////////////
         //
         ///////////////////////////////////////////////////////////////////////////
@@ -146,20 +145,28 @@ public class LogTrackTool {
                 logFile.createNewFile();
             }
 
-            FileWriter     fileWriter     = new FileWriter(logFile, true);
+            FileWriter fileWriter = new FileWriter(logFile, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            String         timeStampText  = getDetailTimeText(System.currentTimeMillis());
-            bufferedWriter.append("\n======\n");
-            bufferedWriter.append(timeStampText);
-            bufferedWriter.append(":");
-            bufferedWriter.append(codeMessage);
-            bufferedWriter.append("\n======\n");
-            bufferedWriter.append(log);
+            String timeStampText = getDetailTimeText(System.currentTimeMillis());
+
             if (lastClassName != null && !lastClassName.equals(className)) {
-                bufferedWriter.newLine();
                 bufferedWriter.newLine();
             }
             lastClassName = className;
+
+            bufferedWriter.newLine();
+            bufferedWriter.append("======");
+            bufferedWriter.newLine();
+            bufferedWriter.append(timeStampText);
+            bufferedWriter.append(":");
+            bufferedWriter.append(codeMessage);
+            bufferedWriter.append("     lastClassName:");
+            bufferedWriter.append(lastClassName);
+            bufferedWriter.append("     className:");
+            bufferedWriter.append(className);
+            bufferedWriter.newLine();
+            bufferedWriter.append(log);
+
 
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -169,13 +176,94 @@ public class LogTrackTool {
         }
     }
 
+    public static String getDetailTimeText(long time) {
+        SimpleDateFormat format = new SimpleDateFormat(PATTERN_DETAIL, Locale.getDefault());
+        return format.format(new Date(time));
+    }
+
+    public synchronized void clearLog() {
+        if (mDelegate == null) {
+            return;
+        }
+        File defaultLogFile = mDelegate.getDefaultLogFile();
+        if (defaultLogFile != null) {
+            defaultLogFile.delete();
+        }
+    }
+
+    protected synchronized void printLog(boolean isSaveLog, StackTraceElement[] stackTrace, String log, Object... messages) {
+        if (stackTrace == null) {
+            return;
+        }
+
+        String fullClassName = stackTrace[3].getClassName();
+        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+        int lineNumber = stackTrace[3].getLineNumber();
+
+        String codeMessage = "";
+        if (stackTrace.length > 5) {
+            String supClassName = stackTrace[4].getClassName();
+            supClassName = supClassName.substring(supClassName.lastIndexOf(".") + 1);
+
+            int supLinenumber = stackTrace[4].getLineNumber();
+            String methodName = stackTrace[4].getMethodName();
+
+            codeMessage += supClassName + "." + methodName + ":" + supLinenumber + "==>";
+        }
+
+        codeMessage += "(" + className + ":" + lineNumber + "@" + Thread.currentThread().getName() + ") : ";
+
+        if (messages != null && messages.length > 0) {
+            StringBuilder logBuilder = new StringBuilder(log);
+            for (Object message : messages) {
+                logBuilder.append(message);
+            }
+            log = logBuilder.toString();
+        }
+
+        if (isPrintLog && mDelegate != null) {
+            String tag = TAG;
+
+            StringBuilder printLogStringBuilder = new StringBuilder();
+            printLogStringBuilder.append("pjwFocus debug ");
+            if (isValidString(className)) {
+                printLogStringBuilder.append(className);
+            }
+            printLogStringBuilder.append("[");
+            printLogStringBuilder.append(codeMessage);
+            printLogStringBuilder.append("]");
+
+            String printLogText = String.format("%-222s %s", log, printLogStringBuilder);
+
+            mDelegate.executeLog(tag, printLogText);
+        }
+
+        if (isSaveLog) {
+            writeToFile(null, className, codeMessage, log);
+        }
+    }
+
     protected boolean isValidString(String stringText) {
         return stringText != null && !"".equals(stringText);
     }
 
-    public static String getDetailTimeText(long time) {
-        SimpleDateFormat format = new SimpleDateFormat(PATTERN_DETAIL, Locale.getDefault());
-        return format.format(new Date(time));
+    /**
+     * 不打印保存崩溃日志
+     */
+    public synchronized void silentLog(String log, Object... messages) {
+        if (sLogFile == null && mDelegate != null) {
+            sLogFile = mDelegate.getDefaultLogFile();
+        }
+
+        if (sLogFile == null) {
+            return;
+        }
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        boolean tempIsPrintLog = isPrintLog;
+        this.isPrintLog = false;
+        printAndWriteToFile(sLogFile, stackTrace, log, messages);
+        this.isPrintLog = tempIsPrintLog;
     }
 
     /**
@@ -197,7 +285,7 @@ public class LogTrackTool {
             log = String.format("%-64s %s", classObject.getClass().getSimpleName(), "==>");
         }
 
-        writeToFile(sLogFile, stackTrace, log, messages);
+        printAndWriteToFile(sLogFile, stackTrace, log, messages);
     }
 
     /**
@@ -209,7 +297,7 @@ public class LogTrackTool {
         }
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        writeToFile(tempLogFile, stackTrace, log, messages);
+        printAndWriteToFile(tempLogFile, stackTrace, log, messages);
     }
 
     public LogTrackTool setDebugMode(boolean isDebugMode) {
@@ -222,15 +310,7 @@ public class LogTrackTool {
         return this;
     }
 
-    public LogTrackTool setLogFile(String tempFileName) {
-        if (mDelegate != null) {
-            this.sLogFile = mDelegate.generateLogFile(tempFileName);
-        }
-
-        return this;
-    }
-
-    public LogTrackTool setDelegate(Delegate delegate) {
+    public LogTrackTool setDelegate(ILogTrackDelegate delegate) {
         this.mDelegate = delegate;
         return this;
     }
@@ -245,11 +325,16 @@ public class LogTrackTool {
         }
     }
 
-    public interface Delegate {
-        void executeLog(String tag, String message);
+    public void handleLogAction() {
+        LogTool.getInstance().s("调用 handleLogAction===>");
+        if (mDelegate.isNeedSendLog()) {
+            mDelegate.sendLogToServer();
+            mDelegate.markSendLog(false);
+        }
 
-        File getDefaultLogFile();
-
-        File generateLogFile(String fileName);
+        if (mDelegate.isNeedClearLogFile()) {
+            mDelegate.clearLogFile();
+            mDelegate.markClearLog(false);
+        }
     }
 }

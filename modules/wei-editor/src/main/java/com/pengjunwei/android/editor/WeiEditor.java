@@ -127,19 +127,19 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        LogTool.getInstance().saveLog("dispatchKeyEvent  ===> ", event);
+        LogTool.getInstance().s("dispatchKeyEvent  ===> ", event);
         return super.dispatchKeyEvent(event);
     }
 
     @Override
     public boolean dispatchKeyEventPreIme(KeyEvent event) {
-        LogTool.getInstance().saveLog("dispatchKeyEventPreIme  ===> ", event);
+        LogTool.getInstance().s("dispatchKeyEventPreIme  ===> ", event);
         return super.dispatchKeyEventPreIme(event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        LogTool.getInstance().saveLog("onKeyUp ===> ", keyCode
+        LogTool.getInstance().s("onKeyUp ===> ", keyCode
                 , " event===> ", event
         );
         return super.onKeyUp(keyCode, event);
@@ -229,7 +229,7 @@ public class WeiEditor extends ConstraintLayout implements WeiEditorVHDelegate {
         } else {
             contentAdapter.add(position, tempData);
         }
-        //        LogTool.getInstance().saveLog("insertEditText ===> ", position
+        //        LogTool.getInstance().s("insertEditText ===> ", position
         //                , " text===> ", newText
         //        );
 

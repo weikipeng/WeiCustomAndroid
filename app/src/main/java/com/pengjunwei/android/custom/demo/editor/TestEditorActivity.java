@@ -28,13 +28,13 @@ public class TestEditorActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        LogTool.getInstance().saveLog("dispatchKeyEvent  ===> ", event);
+        LogTool.getInstance().s("dispatchKeyEvent  ===> ", event);
         return super.dispatchKeyEvent(event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        LogTool.getInstance().saveLog(" activity onKeyUp ===> ", keyCode
+        LogTool.getInstance().s(" activity onKeyUp ===> ", keyCode
                 , " event===> ", event
         );
 

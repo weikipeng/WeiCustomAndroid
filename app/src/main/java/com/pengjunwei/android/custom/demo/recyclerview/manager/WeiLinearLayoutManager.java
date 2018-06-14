@@ -31,7 +31,7 @@ public class WeiLinearLayoutManager extends LinearLayoutManager {
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         super.onMeasure(recycler, state, widthSpec, heightSpec);
-        //        LogTool.getInstance().saveLog("\n\n\n     WeiLinearLayoutManager onMeasure===>", ""
+        //        LogTool.getInstance().s("\n\n\n     WeiLinearLayoutManager onMeasure===>", ""
         //                , "\nrecycler===>", recycler
         //                , "\nstate===>", state
         //        );
@@ -40,13 +40,13 @@ public class WeiLinearLayoutManager extends LinearLayoutManager {
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         super.onLayoutChildren(recycler, state);
-        //        LogTool.getInstance().saveLog("WeiLinearLayoutManager onLayoutChildren===>");
+        //        LogTool.getInstance().s("WeiLinearLayoutManager onLayoutChildren===>");
     }
 
     @Override
     public void onLayoutCompleted(RecyclerView.State state) {
         super.onLayoutCompleted(state);
-        LogTool.getInstance().saveLog("WeiLinearLayoutManager onLayoutCompleted===>");
+        LogTool.getInstance().s("WeiLinearLayoutManager onLayoutCompleted===>");
         int itemCount = getItemCount();
         if (itemCount > 0) {
             View lastView = findViewByPosition(itemCount - 1);
@@ -90,7 +90,7 @@ public class WeiLinearLayoutManager extends LinearLayoutManager {
                 //                lastView.requestLayout();
             }
 
-            LogTool.getInstance().saveLog(stringBuilder.toString());
+            LogTool.getInstance().s(stringBuilder.toString());
         }
     }
 
@@ -99,7 +99,7 @@ public class WeiLinearLayoutManager extends LinearLayoutManager {
         //        int position = getPosition(child);
         //
         //        int itemCount = getItemCount();
-        //        LogTool.getInstance().saveLog("         measureChildWithMargins===> ",""
+        //        LogTool.getInstance().s("         measureChildWithMargins===> ",""
         //        ,"\nchild===>",child
         //        ,"\nwidthUsed===>",widthUsed
         //        ,"\nheightUsed===>",heightUsed

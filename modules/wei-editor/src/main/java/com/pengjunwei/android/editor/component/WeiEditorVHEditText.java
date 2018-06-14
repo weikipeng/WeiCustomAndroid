@@ -124,7 +124,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                         //                        editText.setFocusableInTouchMode(true);
                         //                        editText.setFocusable(true);
 
-                        LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
+                        LogTool.getInstance().s(WeiEditorVHEditText.this.toString()
                                 , " insertEditText 文本=====> " + text);
                         editor.insertEditText(getAdapterPosition() + 1, newText);
                     }
@@ -142,7 +142,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
             if (realData != null) {
                 realData.text = text;
-                LogTool.getInstance().saveLog(WeiEditorVHEditText.this.toString()
+                LogTool.getInstance().s(WeiEditorVHEditText.this.toString()
                         , " 保存输入框 文本=====> " + text);
             }
         }
@@ -197,7 +197,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
 
                     }
-                    LogTool.getInstance().saveLog("onEditorAction ===> true", " actionId:", actionId);
+                    LogTool.getInstance().s("onEditorAction ===> true", " actionId:", actionId);
                     return false;
                 }
 
@@ -208,9 +208,9 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
     @Override
     public void onBindViewHolder(int position, WeiEditorVHBaseData<WeiEditorText> data) {
-        //        LogTool.getInstance().saveLog(getClass().getName(), this, "    onBindViewHolder======> " + position);
+        //        LogTool.getInstance().s(getClass().getName(), this, "    onBindViewHolder======> " + position);
         super.onBindViewHolder(position, data);
-        //        LogTool.getInstance().saveLog(getClass().getName(), this, "    after onBindViewHolder======> " + position);
+        //        LogTool.getInstance().s(getClass().getName(), this, "    after onBindViewHolder======> " + position);
 
 
         WeiEditorText realData = getRealData();
@@ -239,7 +239,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
             }
 
         } else {
-            LogTool.getInstance().saveLog(" onBindViewHolder 设置 文本=====> " + text);
+            LogTool.getInstance().s(" onBindViewHolder 设置 文本=====> " + text);
             //            editText.setText(realData.text);
             setText(editText, text);
         }
@@ -275,7 +275,7 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
         CharSequence toReplace = getSanitizedHtml(text);
         textView.setText(toReplace);
 
-        LogTool.getInstance().saveLog(" 222 setText 文本=====> " + toReplace);
+        LogTool.getInstance().s(" 222 setText 文本=====> " + toReplace);
     }
 
     CharSequence getSanitizedHtml(String text) {
@@ -295,12 +295,12 @@ public class WeiEditorVHEditText extends WeiEditorVHBase<WeiEditorText> {
 
     @Override
     public void onViewAttachedToWindow() {
-        LogTool.getInstance().saveLog(getClass().getName(), this, "    onViewAttachedToWindow======> ");
+        LogTool.getInstance().s(getClass().getName(), this, "    onViewAttachedToWindow======> ");
     }
 
     @Override
     public void onViewDetachedFromWindow() {
-        LogTool.getInstance().saveLog(getClass().getName(), this, "    onViewDetachedFromWindow======> ");
+        LogTool.getInstance().s(getClass().getName(), this, "    onViewDetachedFromWindow======> ");
 
         WeiEditorText realData = getRealData();
         if (realData == null) {

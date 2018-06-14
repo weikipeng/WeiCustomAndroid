@@ -14,15 +14,15 @@ public class WeiEditorContentAdapter<D> extends WeiEditorTemplateAdapter<D>{
 
     @Override
     public void onViewAttachedToWindow(WeiEditorVHBase holder) {
-//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
+//        LogTool.getInstance().s(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
         super.onViewAttachedToWindow(holder);
-//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
+//        LogTool.getInstance().s(holder.getClass().getName(),"    onViewAttachedToWindow======> "+holder);
     }
 
     @Override
     public void onViewDetachedFromWindow(WeiEditorVHBase holder) {
-//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
+//        LogTool.getInstance().s(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
         super.onViewDetachedFromWindow(holder);
-//        LogTool.getInstance().saveLog(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
+//        LogTool.getInstance().s(holder.getClass().getName(),"    ______onViewDetachedFromWindow======> "+holder);
     }
 }

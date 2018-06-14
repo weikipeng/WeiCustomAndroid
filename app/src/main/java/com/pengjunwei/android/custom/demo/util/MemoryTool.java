@@ -111,10 +111,10 @@ public class MemoryTool {
         try {
             reader = new RandomAccessFile("/proc/meminfo", "r");
             load = reader.readLine();
-            LogTool.getInstance().saveLog("reader===>", load);
+            LogTool.getInstance().s("reader===>", load);
 
             load = reader.readLine();
-            LogTool.getInstance().saveLog("reader 222 ===>", load);
+            LogTool.getInstance().s("reader 222 ===>", load);
 
 
             // Get the Number value from the string
@@ -213,8 +213,8 @@ public class MemoryTool {
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(info);
-        LogTool.getInstance().saveLog("系统剩余内存:" + (info.availMem >> 10) + "k");
-        LogTool.getInstance().saveLog("系统是否处于低内存运行：" + info.lowMemory);
-        LogTool.getInstance().saveLog("当系统剩余内存低于" + info.threshold + "时就看成低内存运行");
+        LogTool.getInstance().s("系统剩余内存:" + (info.availMem >> 10) + "k");
+        LogTool.getInstance().s("系统是否处于低内存运行：" + info.lowMemory);
+        LogTool.getInstance().s("当系统剩余内存低于" + info.threshold + "时就看成低内存运行");
     }
 }

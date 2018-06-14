@@ -35,7 +35,7 @@ public class JzbPlaceHolder extends AppCompatImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         onMeasureCount++;
-        //        LogTool.getInstance().saveLog(" 测量次数         onMeasureCount===>", onMeasureCount);
+        //        LogTool.getInstance().s(" 测量次数         onMeasureCount===>", onMeasureCount);
 
         int measuredWidth  = getMeasuredWidth();
         int measuredHeight = getMeasuredHeight();
@@ -60,7 +60,7 @@ public class JzbPlaceHolder extends AppCompatImageView {
         layoutParams.width = size;
         layoutParams.height = ((size * 100 / 561) * 164) / 100;
 
-        //        LogTool.getInstance().saveLog("jzbFocus debug ===> 默认图 宽度       :" + layoutParams.width
+        //        LogTool.getInstance().s("jzbFocus debug ===> 默认图 宽度       :" + layoutParams.width
         //                , "         默认高度===>", layoutParams.height
         //                , "         onMeasureCount===>", onMeasureCount
         //                , "         parentWidth===>", parentWidth

@@ -26,7 +26,7 @@ public class WeiEditorEditText extends TextInputEditText {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        LogTool.getInstance().saveLog("onKeyUp===>", keyCode
+        LogTool.getInstance().s("onKeyUp===>", keyCode
                 , " event===>", event.toString()
         );
         return super.onKeyUp(keyCode, event);
